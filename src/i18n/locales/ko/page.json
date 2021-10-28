@@ -1,0 +1,22 @@
+{
+  "common": {
+    "ok": "확인",
+    "cancel": "취소",
+    "logout": "로그아웃"
+  },
+  "auth": {
+    "login_with_anony": "익명 로그인",
+    "login_with_email": "이메일 로그인",
+    "login_with_google": "구글 로그인",
+    "login_with_facebook": "페이스북 로그인",
+    "create_account": "계정 생성",
+    "sign_in": "로그인"
+  },
+  "lobby": {
+    "anony_user": "익명사용자",
+    "create_room": "방만들기"
+  },
+  "room_info": {
+    "entrance": "입장하기"
+  }
+}
