@@ -19,7 +19,7 @@ function App() {
     });
   }, []);
 
-  return <AppRouter></AppRouter>;
+  return <>{init ? <AppRouter></AppRouter> : "loading..."}</>;
 }
 
 export default App;

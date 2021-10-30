@@ -2,16 +2,12 @@ import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import Auth from "routes/Auth";
 import Lobby from "routes/Lobby";
+import CreateRoom from "routes/CreateRoom";
 import MeetingRoom from "routes/MeetingRoom";
 import Prepare from "routes/Prepare";
 import Wrapup from "routes/Wrapup";
 import NotFound from "routes/NotFound";
 import { useSelector } from "react-redux";
-import CreateRoom from "routes/CreateRoom";
-import { authService } from "../fbase";
-
-// TODO: 새로고침에서 not found 가 뜨네..
-/*
 import { Fragment } from "react";
 
 export const FragmentSupportingSwitch = ({ children }) => {
@@ -34,15 +30,14 @@ function flatten(target, children) {
     }
   });
 }
-*/
 
 const AppRouter = () => {
-  const loginedUser = useSelector((store) => store.loginedUser); // 이거 때문에 2번 호출되는거 같긴 한데.. authstate 가 바뀌니까 맞는건가?
+  const loginedUser = useSelector((store) => store.loginedUser);
   console.log("AppRouter");
 
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <Switch>
+      <FragmentSupportingSwitch>
         {loginedUser ? (
           <>
             <Route exact path="/">
@@ -63,18 +58,19 @@ const AppRouter = () => {
             <Route exact path="/wrapup">
               <Wrapup></Wrapup>
             </Route>
+            <Route path="*" component={NotFound} />
           </>
         ) : (
           <>
             <Route exact path="/">
               <Auth></Auth>
             </Route>
-            <Route path="/">
+            <Route path="*">
               <Redirect to="/" />
             </Route>
           </>
         )}
-      </Switch>
+      </FragmentSupportingSwitch>
     </BrowserRouter>
   );
 };

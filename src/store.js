@@ -1,7 +1,9 @@
 import { createStore } from "redux";
 export default createStore((state, action) => {
   if (state === undefined) {
-    return { loginedUser: null };
+    return {
+      loginedUser: null,
+    };
   }
   if (action.type === "AUTH_STATE_CHANGED") {
     return { ...state, loginedUser: action.user };

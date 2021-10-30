@@ -7,6 +7,10 @@ const RoomInfo = ({ roomObj }) => {
   const history = useHistory();
 
   const onEntranceClick = () => {
+    const sessionInfo = {
+      entranceRoom: { id: roomObj.id },
+    };
+    window.sessionStorage.setItem("sessionInfo", JSON.stringify(sessionInfo));
     history.push("/prepare");
   };
 
