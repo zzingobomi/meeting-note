@@ -42,6 +42,12 @@ const MeetingRoom = () => {
     await makeConnection();
     handleSocket();
     getMessages();
+
+    return () => {
+      if (socket) {
+        socket.close();
+      }
+    };
   }, []);
 
   const getMedia = async (deviceId) => {
