@@ -226,7 +226,12 @@ const MeetingRoom = () => {
       <br />
       <div className="chat-list">
         {messages.map((messageObj) => (
-          <MessageInfo key={messageObj.id} messageObj={messageObj} />
+          <MessageInfo
+            key={messageObj.id}
+            messageObj={messageObj}
+            isOwner={messageObj.creatorId === loginedUser.uid}
+            roomId={entranceRoom.id}
+          />
         ))}
       </div>
       <div className="chat-form">
