@@ -1,9 +1,18 @@
-import { deleteDoc, doc } from "@firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+} from "@firebase/firestore";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { dbService } from "../fbase";
 import socketIOClient from "socket.io-client";
+import MessageInfo from "components/MessageInfo";
 //const ENDPOINT = "http://127.0.0.1:4000";
 const ENDPOINT = "http://192.168.0.2:4000";
 
@@ -16,6 +25,8 @@ const MeetingRoom = () => {
   const [deviceId, setDeviceId] = useState(sessionInfo.deviceId);
   const [nickName, setNickName] = useState(sessionInfo.nickName);
   const [entranceRoom, setEntranceRoom] = useState(sessionInfo.entranceRoom);
+  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState("");
 
   const [response, setResponse] = useState("");
 
@@ -25,43 +36,12 @@ const MeetingRoom = () => {
   let socket;
 
   const otherVideo = useRef();
-  //let myStream;
-  //let myPeerConnection;
 
   useEffect(async () => {
     await getMedia(deviceId);
     await makeConnection();
-
-    socket = socketIOClient(ENDPOINT);
-    socket.emit("join_room", entranceRoom.id);
-    socket.on("sayhello", (data) => {
-      setResponse(data);
-    });
-    socket.on("welcome", async () => {
-      const offer = await myPeerConnection.createOffer();
-      myPeerConnection.setLocalDescription(offer);
-      console.log("sent the offer");
-      socket.emit("offer", offer, entranceRoom.id);
-    });
-
-    socket.on("offer", async (offer) => {
-      console.log("received the offer");
-      myPeerConnection.setRemoteDescription(offer);
-      const answer = await myPeerConnection.createAnswer();
-      myPeerConnection.setLocalDescription(answer);
-      socket.emit("answer", answer, entranceRoom.id);
-      console.log("sent the answer");
-    });
-
-    socket.on("answer", (answer) => {
-      console.log("received the offer");
-      myPeerConnection.setRemoteDescription(answer);
-    });
-
-    socket.on("ice", (ice) => {
-      console.log("received candidate");
-      myPeerConnection.addIceCandidate(ice);
-    });
+    handleSocket();
+    getMessages();
   }, []);
 
   const getMedia = async (deviceId) => {
@@ -107,6 +87,82 @@ const MeetingRoom = () => {
   const handleAddStream = (data) => {
     console.log("got an stream from my peer");
     otherVideo.current.srcObject = data.stream;
+  };
+
+  const handleSocket = () => {
+    socket = socketIOClient(ENDPOINT);
+    socket.emit("join_room", entranceRoom.id);
+    socket.on("sayhello", (data) => {
+      setResponse(data);
+    });
+    socket.on("welcome", async () => {
+      const offer = await myPeerConnection.createOffer();
+      myPeerConnection.setLocalDescription(offer);
+      console.log("sent the offer");
+      socket.emit("offer", offer, entranceRoom.id);
+    });
+
+    socket.on("offer", async (offer) => {
+      console.log("received the offer");
+      myPeerConnection.setRemoteDescription(offer);
+      const answer = await myPeerConnection.createAnswer();
+      myPeerConnection.setLocalDescription(answer);
+      socket.emit("answer", answer, entranceRoom.id);
+      console.log("sent the answer");
+    });
+
+    socket.on("answer", (answer) => {
+      console.log("received the offer");
+      myPeerConnection.setRemoteDescription(answer);
+    });
+
+    socket.on("ice", (ice) => {
+      console.log("received candidate");
+      myPeerConnection.addIceCandidate(ice);
+    });
+  };
+
+  const getMessages = () => {
+    const q = query(
+      collection(dbService, "rooms", entranceRoom.id, "messages"),
+      orderBy("createdAt", "asc")
+    );
+    onSnapshot(q, (snapshot) => {
+      const messageArr = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setMessages(messageArr);
+    });
+  };
+
+  const onChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setMessage(value);
+  };
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    if (message === "") {
+      return;
+    }
+
+    try {
+      const newMessage = {
+        message: message,
+        createdAt: Date.now(),
+        creatorId: loginedUser.uid,
+      };
+      const docRef = await addDoc(
+        collection(dbService, "rooms", entranceRoom.id, "messages"),
+        newMessage
+      );
+      setMessage("");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const deleteMyRoom = async () => {
@@ -166,6 +222,24 @@ const MeetingRoom = () => {
           width="320px"
           height="240px"
         />
+      </div>
+      <br />
+      <div className="chat-list">
+        {messages.map((messageObj) => (
+          <MessageInfo key={messageObj.id} messageObj={messageObj} />
+        ))}
+      </div>
+      <div className="chat-form">
+        <form onSubmit={onSubmit}>
+          <input
+            value={message}
+            onChange={onChange}
+            type="text"
+            placeholder="What's on your mind?"
+            maxLength={120}
+          />
+          <input type="submit" value="전송" />
+        </form>
       </div>
     </>
   );
