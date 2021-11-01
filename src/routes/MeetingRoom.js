@@ -45,6 +45,7 @@ const MeetingRoom = () => {
 
     return () => {
       if (socket) {
+        // TODO: peerconnection 끊기
         socket.close();
       }
     };

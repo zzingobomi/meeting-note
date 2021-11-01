@@ -1,0 +1,21 @@
+@import "src/style.scss";
+
+.login-container {
+  text-align: center;
+}
+
+.social-container {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  .btn-anony {
+    background-color: $color-anony;
+  }
+  .btn-google {
+    color: $color-text-1;
+    background-color: $color-google;
+  }
+  .btn-facebook {
+    background-color: $color-facebook;
+  }
+}
