@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { authService } from "../fbase";
+import Header from "./Header";
 import AppRouter from "./Router";
 
 function App() {
@@ -19,7 +20,18 @@ function App() {
     });
   }, []);
 
-  return <>{init ? <AppRouter></AppRouter> : "loading..."}</>;
+  return (
+    <>
+      {init ? (
+        <>
+          <Header></Header>
+          <AppRouter></AppRouter>
+        </>
+      ) : (
+        "loading..."
+      )}
+    </>
+  );
 }
 
 export default App;

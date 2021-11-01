@@ -1,7 +1,13 @@
 @import "color.scss";
 
+$header-height: 87px;
+
 body {
-  margin-top: 50px;
+  margin: 0;
+}
+
+.container {
+  margin-top: $header-height;
 }
 
 .error {

@@ -1,0 +1,30 @@
+@import "src/style.scss";
+
+.MuiCard-root {
+  :hover {
+    background-color: $color-gray-1;
+  }
+  .room-creator-time {
+    color: $color-text-2;
+    font-size: 0.625rem;
+  }
+  .room-name {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 32px;
+  }
+  .room-creator-info {
+    display: flex;
+    .anony {
+      margin-left: 8px;
+      width: 24px;
+      height: 24px;
+    }
+    img {
+      margin-left: 8px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+    }
+  }
+}

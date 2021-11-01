@@ -9,7 +9,9 @@ import { useHistory } from "react-router";
 const CreateRoom = () => {
   const { t } = useTranslation(["page"]);
   const history = useHistory();
-  const { uid, displayName } = useSelector((store) => store.loginedUser);
+  const { uid, displayName, photoURL } = useSelector(
+    (store) => store.loginedUser
+  );
   const [roomName, setRoomName] = useState("");
   const [nickName, setNickName] = useState(displayName);
   const [cameras, setCameras] = useState([]);
@@ -21,6 +23,7 @@ const CreateRoom = () => {
 
   useEffect(() => {
     getMedia();
+    // TODO: 나갈때 카메라 끄기
   }, []);
 
   const getMedia = async (deviceId) => {
@@ -87,6 +90,8 @@ const CreateRoom = () => {
     const newRoom = {
       name: roomName,
       creatorId: uid,
+      creatorNickName: nickName,
+      creatorPhotoUrl: photoURL,
       createdAt: Date.now(),
     };
 

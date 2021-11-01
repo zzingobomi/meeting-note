@@ -44,40 +44,38 @@ const Auth = () => {
   };
 
   return (
-    <>
-      <Container className="login-container" maxWidth="xs">
-        <AuthForm></AuthForm>
-        <div className="social-container">
-          <Button
-            className="btn-anony"
-            variant="contained"
-            onClick={onAnonymousClick}
-            startIcon={<AccountCircleIcon />}
-          >
-            {t("page:auth:login_with_anony")}
-          </Button>
-          <br />
-          <Button
-            className="btn-google"
-            variant="contained"
-            onClick={(event) => onSocialClick(event, "google")}
-            startIcon={<GoogleIcon style={{ fill: "#d50f25" }} />}
-          >
-            {t("page:auth:login_with_google")}
-          </Button>
-          <br />
-          <Button
-            className="btn-facebook"
-            variant="contained"
-            onClick={(event) => onSocialClick(event, "facebook")}
-            startIcon={<FacebookIcon />}
-          >
-            {t("page:auth:login_with_facebook")}
-          </Button>
-          <div className="error">{error}</div>
-        </div>
-      </Container>
-    </>
+    <Container className="container login-container" maxWidth="xs">
+      <AuthForm></AuthForm>
+      <div className="social-container">
+        <Button
+          className="btn-anony"
+          variant="contained"
+          onClick={onAnonymousClick}
+          startIcon={<AccountCircleIcon />}
+        >
+          {t("page:auth:login_with_anony")}
+        </Button>
+        <br />
+        <Button
+          className="btn-google"
+          variant="contained"
+          onClick={(event) => onSocialClick(event, "google")}
+          startIcon={<GoogleIcon style={{ fill: "#d50f25" }} />}
+        >
+          {t("page:auth:login_with_google")}
+        </Button>
+        <br />
+        <Button
+          className="btn-facebook"
+          variant="contained"
+          onClick={(event) => onSocialClick(event, "facebook")}
+          startIcon={<FacebookIcon />}
+        >
+          {t("page:auth:login_with_facebook")}
+        </Button>
+        <div className="error">{error}</div>
+      </div>
+    </Container>
   );
 };
 

@@ -25,8 +25,9 @@
     }
   },
   "lobby": {
-    "anony_user": "익명사용자",
-    "create_room": "방만들기"
+    "my_room_title": "내 회의실",
+    "other_room_title": "다른 회의실",
+    "create_room": "회의실 추가"
   },
   "room_info": {
     "entrance": "입장하기"
