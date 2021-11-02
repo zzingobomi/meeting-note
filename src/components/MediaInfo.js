@@ -15,18 +15,20 @@ const MediaInfo = ({ onCameraChange }) => {
   const [cameras, setCameras] = useState([]);
   const [selectCamera, setSelectCamera] = useState("");
   const [stream, setStream] = useState(null);
-  let myStream;
 
   useEffect(() => {
     getMedia();
+  }, []);
+
+  useEffect(() => {
     return () => {
       cleanup();
     };
-  }, []);
+  }, [stream]);
 
   const cleanup = () => {
-    if (myStream) {
-      myStream.getTracks().forEach((track) => {
+    if (stream) {
+      stream.getTracks().forEach((track) => {
         track.stop();
       });
     }
@@ -43,20 +45,21 @@ const MediaInfo = ({ onCameraChange }) => {
     };
 
     try {
-      myStream = await navigator.mediaDevices.getUserMedia(
+      let myStream = await navigator.mediaDevices.getUserMedia(
         deviceId ? cameraConstrains : initialConstrains
       );
       videoPreview.current.srcObject = myStream;
       setStream(myStream);
+
       if (!deviceId) {
-        await getCameras();
+        await getCameras(myStream);
       }
     } catch (error) {
       setError(error.message);
     }
   };
 
-  const getCameras = async () => {
+  const getCameras = async (myStream) => {
     try {
       const devices = await navigator.mediaDevices.enumerateDevices();
       const videoCameras = devices.filter(

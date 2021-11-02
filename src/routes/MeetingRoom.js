@@ -15,9 +15,10 @@ import socketIOClient from "socket.io-client";
 import MessageInfo from "components/MessageInfo";
 import { Container } from "@mui/material";
 import "./MeetingRoom.scss";
+import Video from "components/Video";
 
-//const ENDPOINT = "http://127.0.0.1:4000";
-const ENDPOINT = "http://192.168.0.2:4000";
+const ENDPOINT = "http://127.0.0.1:4000";
+//const ENDPOINT = "http://192.168.0.2:4000";
 
 const MeetingRoom = () => {
   const loginedUser = useSelector((store) => store.loginedUser);
@@ -25,6 +26,7 @@ const MeetingRoom = () => {
 
   const history = useHistory();
 
+  const [error, setError] = useState("");
   const [deviceId, setDeviceId] = useState(sessionInfo.deviceId);
   const [nickName, setNickName] = useState(sessionInfo.nickName);
   const [entranceRoom, setEntranceRoom] = useState(sessionInfo.entranceRoom);
@@ -33,26 +35,52 @@ const MeetingRoom = () => {
 
   const [response, setResponse] = useState("");
 
-  const myVideo = useRef();
-  let myStream;
-  let myPeerConnection;
-  let socket;
+  const localVideo = useRef();
 
-  const otherVideo = useRef();
+  const [stream, setStream] = useState(null); // localStream
 
-  useEffect(async () => {
-    await getMedia(deviceId);
-    await makeConnection();
-    handleSocket();
-    getMessages();
+  const [socket, setSocket] = useState();
+  const [users, setUsers] = useState([]);
+
+  let localStream;
+  let newSocket;
+  let pcs;
+
+  useEffect(() => {
+    initWebRTC();
+    // TODO: message 처리
+    //getMessages();
 
     return () => {
-      if (socket) {
-        // TODO: peerconnection 끊기
-        socket.close();
-      }
+      cleanupSocket();
     };
   }, []);
+
+  useEffect(() => {
+    return () => {
+      cleanupStream();
+    };
+  }, [stream]);
+
+  const initWebRTC = async () => {
+    await getMedia(deviceId);
+    //await makeConnection(localStream);
+    handleSocket();
+  };
+
+  const cleanupSocket = () => {
+    if (socket) {
+      socket.close();
+    }
+  };
+
+  const cleanupStream = () => {
+    if (stream) {
+      stream.getTracks().forEach((track) => {
+        track.stop();
+      });
+    }
+  };
 
   const getMedia = async (deviceId) => {
     const cameraConstrains = {
@@ -61,15 +89,124 @@ const MeetingRoom = () => {
     };
 
     try {
-      myStream = await navigator.mediaDevices.getUserMedia(cameraConstrains);
-      myVideo.current.srcObject = myStream;
-    } catch (e) {
-      console.log(e);
+      localStream = await navigator.mediaDevices.getUserMedia(cameraConstrains);
+      localVideo.current.srcObject = localStream;
+      setStream(localStream);
+    } catch (error) {
+      setError(error.message);
     }
   };
 
-  const makeConnection = async () => {
-    myPeerConnection = new RTCPeerConnection({
+  const handleSocket = () => {
+    console.log("handleSocket");
+    newSocket = socketIOClient(ENDPOINT);
+    newSocket.on("sayhello", (data) => {
+      setResponse(data);
+    });
+
+    newSocket.emit("join_room", { room: entranceRoom.id, nickName: nickName });
+
+    newSocket.on("all_users", (allUsers) => {
+      console.log("allUsers");
+
+      let len = allUsers.length;
+
+      for (let i = 0; i < len; i++) {
+        createPeerConnection(
+          allUsers[i].id,
+          allUsers[i].email,
+          newSocket,
+          localStream
+        );
+        let pc = pcs[allUsers[i].id];
+        if (pc) {
+          pc.createOffer({
+            offerToReceiveAudio: true,
+            offerToReceiveVideo: true,
+          })
+            .then((sdp) => {
+              console.log("create offer success");
+              pc.setLocalDescription(new RTCSessionDescription(sdp));
+              newSocket.emit("offer", {
+                sdp: sdp,
+                offerSendID: newSocket.id,
+                offerSendNickName: nickName,
+                offerReceiveID: allUsers[i].id,
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+      }
+    });
+
+    newSocket.on("getOffer", (data) => {
+      console.log("getOffer");
+      createPeerConnection(
+        data.offerSendID,
+        data.offerSendNickName,
+        newSocket,
+        localStream
+      );
+      let pc = pcs[data.offerSendID];
+      if (pc) {
+        pc.setRemoteDescription(new RTCSessionDescription(data.sdp))
+          .then(() => {
+            console.log("answer set remote description success");
+            pc.createAnswer({
+              offerToReceiveVideo: true,
+              offerToReceiveAudio: true,
+            })
+              .then((sdp) => {
+                console.log("create answer success");
+                pc.setLocalDescription(new RTCSessionDescription(sdp));
+                newSocket.emit("answer", {
+                  sdp: sdp,
+                  answerSendID: newSocket.id,
+                  answerReceiveID: data.offerSendID,
+                });
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    });
+
+    newSocket.on("getAnswer", (data) => {
+      console.log("getAnswer");
+      let pc = pcs[data.answerSendID];
+      if (pc) {
+        pc.setRemoteDescription(new RTCSessionDescription(data.sdp));
+      }
+    });
+
+    newSocket.on("getCandidate", (data) => {
+      console.log("getCandidate");
+      let pc = pcs[data.candidateSendID];
+      if (pc) {
+        pc.addIceCandidate(new RTCIceCandidate(data.candidate)).then(() => {
+          console.log("candidate add success");
+        });
+      }
+    });
+
+    newSocket.on("user_exit", (data) => {
+      console.log("user_exit");
+      pcs[data.id].close();
+      delete pcs[data.id];
+      setUsers((oldUsers) => oldUsers.filter((user) => user.id !== data.id));
+    });
+
+    setSocket(newSocket);
+  };
+
+  const createPeerConnection = (socketID, nickName, newSocket, localStream) => {
+    let pc = new RTCPeerConnection({
       iceServers: [
         {
           urls: [
@@ -82,54 +219,47 @@ const MeetingRoom = () => {
         },
       ],
     });
-    myPeerConnection.addEventListener("icecandidate", handleIce);
-    myPeerConnection.addEventListener("addstream", handleAddStream);
-    myStream.getTracks().forEach((track) => {
-      myPeerConnection.addTrack(track, myStream);
-    });
-  };
 
-  const handleIce = (data) => {
-    console.log("sent candidate");
-    socket.emit("ice", data.candidate, entranceRoom.id);
-  };
+    pcs = { ...pcs, [socketID]: pc };
 
-  const handleAddStream = (data) => {
-    console.log("got an stream from my peer");
-    otherVideo.current.srcObject = data.stream;
-  };
+    pc.onicecandidate = (e) => {
+      if (e.candidate) {
+        console.log("onicecandidate");
+        newSocket.emit("candidate", {
+          candidate: e.candidate,
+          candidateSendID: newSocket.id,
+          candidateReceiveID: socketID,
+        });
+      }
+    };
 
-  const handleSocket = () => {
-    socket = socketIOClient(ENDPOINT);
-    socket.emit("join_room", entranceRoom.id);
-    socket.on("sayhello", (data) => {
-      setResponse(data);
-    });
-    socket.on("welcome", async () => {
-      const offer = await myPeerConnection.createOffer();
-      myPeerConnection.setLocalDescription(offer);
-      console.log("sent the offer");
-      socket.emit("offer", offer, entranceRoom.id);
-    });
+    pc.oniceconnectionstatechange = (e) => {
+      console.log(e);
+    };
 
-    socket.on("offer", async (offer) => {
-      console.log("received the offer");
-      myPeerConnection.setRemoteDescription(offer);
-      const answer = await myPeerConnection.createAnswer();
-      myPeerConnection.setLocalDescription(answer);
-      socket.emit("answer", answer, entranceRoom.id);
-      console.log("sent the answer");
-    });
+    pc.ontrack = (e) => {
+      console.log("ontrack success");
+      setUsers((oldUsers) => oldUsers.filter((user) => user.id !== socketID));
+      setUsers((oldUsers) => [
+        ...oldUsers,
+        {
+          id: socketID,
+          nickName: nickName,
+          stream: e.streams[0],
+        },
+      ]);
+    };
 
-    socket.on("answer", (answer) => {
-      console.log("received the offer");
-      myPeerConnection.setRemoteDescription(answer);
-    });
+    if (localStream) {
+      console.log("localStream add");
+      localStream.getTracks().forEach((track) => {
+        pc.addTrack(track, localStream);
+      });
+    } else {
+      console.log("no local stream");
+    }
 
-    socket.on("ice", (ice) => {
-      console.log("received candidate");
-      myPeerConnection.addIceCandidate(ice);
-    });
+    return pc;
   };
 
   const getMessages = () => {
@@ -196,66 +326,29 @@ const MeetingRoom = () => {
     }
   };
 
+  const onMuteClick = () => {
+    stream
+      .getAudioTracks()
+      .forEach((track) => (track.enabled = !track.enabled));
+  };
+
   return (
     <Container className="container meeting-room-container" maxWidth="lg">
       <p>socket response: {response}</p>
-      <span>devideId: {deviceId}</span>
+
+      <video ref={localVideo} autoPlay playsInline />
+
+      {users.map((user, index) => {
+        return (
+          <Video key={index} nickName={user.nickName} stream={user.stream} />
+        );
+      })}
+
       <br />
-      <span>nickName: {nickName}</span>
       <br />
-      <span>entranceRoomId: {entranceRoom.id}</span>
-      <br />
-      <span>entranceRoomCreatorId: {entranceRoom.creatorId}</span>
-      <br />
-      <span>entranceRoomCreatedAt: {entranceRoom.createdAt}</span>
-      <br />
-      <span>entranceRoomName: {entranceRoom.name}</span>
-      <br />
+      <button onClick={onMuteClick}>음소거</button>
       <button onClick={onDeleteClick}>방삭제</button>
       <button onClick={onFinishClick}>회의종료</button>
-      <br />
-      <br />
-      <div className="my-video">
-        <video
-          ref={myVideo}
-          autoPlay
-          playsInline
-          width="320px"
-          height="240px"
-        />
-      </div>
-      <div className="other-video">
-        <video
-          ref={otherVideo}
-          autoPlay
-          playsInline
-          width="320px"
-          height="240px"
-        />
-      </div>
-      <br />
-      <div className="chat-list">
-        {messages.map((messageObj) => (
-          <MessageInfo
-            key={messageObj.id}
-            messageObj={messageObj}
-            isOwner={messageObj.creatorId === loginedUser.uid}
-            roomId={entranceRoom.id}
-          />
-        ))}
-      </div>
-      <div className="chat-form">
-        <form onSubmit={onSubmit}>
-          <input
-            value={message}
-            onChange={onChange}
-            type="text"
-            placeholder="What's on your mind?"
-            maxLength={120}
-          />
-          <input type="submit" value="전송" />
-        </form>
-      </div>
     </Container>
   );
 };

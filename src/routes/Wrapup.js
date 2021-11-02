@@ -31,8 +31,8 @@ const Wrapup = () => {
   let messages = [];
   const downloadElem = useRef();
 
-  useEffect(async () => {
-    await getRoom();
+  useEffect(() => {
+    getRoom();
   }, []);
 
   const getRoom = async () => {
