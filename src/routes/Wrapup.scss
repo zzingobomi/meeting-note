@@ -1,0 +1,38 @@
+@import "src/style.scss";
+
+.time-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .run-icon {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    bottom: -19px;
+  }
+  .timeline {
+    width: 75%;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    border-left: 4px solid black;
+    border-right: 4px solid black;
+    .line {
+      height: 4px;
+      background-color: black;
+    }
+  }
+  .time-info {
+    margin-top: 8px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+  }
+  .duration {
+    margin-top: 24px;
+    margin-bottom: 24px;
+    font-size: 48px;
+    font-weight: bold;
+  }
+}

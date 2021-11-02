@@ -53,5 +53,9 @@
       "valid_nickname": "20자리 미만의 닉네임을 입력해 주세요",
       "require_nickname": "닉네임은 필수 항목입니다"
     }
+  },
+  "wrapup": {
+    "download_messages": "채팅 다운로드",
+    "goto_lobby": "로비로 가기"
   }
 }

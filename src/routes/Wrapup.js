@@ -7,16 +7,26 @@ import {
   orderBy,
   query,
 } from "@firebase/firestore";
+import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { dbService } from "fbase";
 import { useHistory } from "react-router";
+import { Button, Container } from "@mui/material";
+import { DateTime } from "luxon";
+import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
+import "./Wrapup.scss";
 
+// TODO: start, end 를 parameter 로 받아서..? DeteTime.now 는 refresh 시 계속 증가함..
 const Wrapup = () => {
+  const { t } = useTranslation(["page"]);
   const history = useHistory();
 
   const loginedUser = useSelector((store) => store.loginedUser);
   const sessionInfo = JSON.parse(window.sessionStorage.getItem("sessionInfo"));
-  const [meetTime, setMeetTime] = useState("");
+
+  const [error, setError] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [durationTime, setDurationTime] = useState("");
 
   let messages = [];
   const downloadElem = useRef();
@@ -30,10 +40,20 @@ const Wrapup = () => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      let durationTime = timeDifference(Date.now() - docSnap.data().createdAt);
-      setMeetTime(durationTime);
+      const diff = DateTime.now().diff(
+        DateTime.fromMillis(Number(docSnap.data().createdAt))
+      );
+      let durationTime = diff
+        .toFormat("dd : hh : mm : ss")
+        .replace(/^[0 : ]+(?=\d[\d : ]{3})/, "");
+      setDurationTime(durationTime);
+      setStartTime(
+        DateTime.fromMillis(Number(docSnap.data().createdAt)).toFormat(
+          "MM/dd HH:mm"
+        )
+      );
     } else {
-      console.log("No such document!");
+      setError("No such rooms");
     }
   };
 
@@ -65,39 +85,39 @@ const Wrapup = () => {
     downloadMessages();
   };
 
-  const timeDifference = (difference) => {
-    let daysDifference = Math.floor(difference / 1000 / 60 / 60 / 24);
-    difference -= daysDifference * 1000 * 60 * 60 * 24;
-    let hoursDifference = Math.floor(difference / 1000 / 60 / 60);
-    difference -= hoursDifference * 1000 * 60 * 60;
-    let minutesDifference = Math.floor(difference / 1000 / 60);
-    difference -= minutesDifference * 1000 * 60;
-    let secondsDifference = Math.floor(difference / 1000);
-
-    // TODO: day 없을때..
-    return `${daysDifference} : ${hoursDifference} : ${minutesDifference} : ${secondsDifference}`;
-  };
-
   const onGotoLobbyClick = () => {
     history.push("/lobby");
   };
 
   return (
-    <div>
-      <div className="time-container">
-        <span>Time: {meetTime}</span>
+    <Container className="container wrapup-container" maxWidth="xs">
+      <div className="time-box">
+        <DirectionsRunIcon className="run-icon" />
+        <div className="timeline">
+          <div className="line"></div>
+        </div>
+        <div className="time-info">
+          <span className="start-time">{startTime}</span>
+          <span className="end-time">
+            {DateTime.now().toFormat("MM/dd HH:mm")}
+          </span>
+        </div>
+        <span className="duration">{durationTime}</span>
+        {loginedUser.isAnonymous ? (
+          ""
+        ) : (
+          <>
+            <a ref={downloadElem} style={{ display: "none" }}></a>
+            <Button onClick={onMessagesClick}>
+              {t("page:wrapup:download_messages")}
+            </Button>
+          </>
+        )}
+        <Button onClick={onGotoLobbyClick}>
+          {t("page:wrapup:goto_lobby")}
+        </Button>
       </div>
-      {loginedUser.isAnonymous ? (
-        ""
-      ) : (
-        <>
-          <a ref={downloadElem} style={{ display: "none" }}></a>
-          <button onClick={onMessagesClick}>채팅 다운로드</button>
-        </>
-      )}
-      <br />
-      <button onClick={onGotoLobbyClick}>로비로가기</button>
-    </div>
+    </Container>
   );
 };
 

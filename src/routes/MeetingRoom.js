@@ -13,6 +13,9 @@ import { useHistory } from "react-router";
 import { dbService } from "../fbase";
 import socketIOClient from "socket.io-client";
 import MessageInfo from "components/MessageInfo";
+import { Container } from "@mui/material";
+import "./MeetingRoom.scss";
+
 //const ENDPOINT = "http://127.0.0.1:4000";
 const ENDPOINT = "http://192.168.0.2:4000";
 
@@ -194,7 +197,7 @@ const MeetingRoom = () => {
   };
 
   return (
-    <>
+    <Container className="container meeting-room-container" maxWidth="lg">
       <p>socket response: {response}</p>
       <span>devideId: {deviceId}</span>
       <br />
@@ -253,7 +256,7 @@ const MeetingRoom = () => {
           <input type="submit" value="전송" />
         </form>
       </div>
-    </>
+    </Container>
   );
 };
 
