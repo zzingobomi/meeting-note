@@ -1,67 +1,49 @@
+import React, { useEffect, useState } from "react";
 import { doc, getDoc } from "@firebase/firestore";
-import React, { useEffect, useRef, useState } from "react";
+import MediaInfo from "components/MediaInfo";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { dbService } from "../fbase";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import { Button, Container } from "@mui/material";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { DateTime } from "luxon";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import "./Prepare.scss";
 
 const Prepare = () => {
   const { t } = useTranslation(["page"]);
   const history = useHistory();
   const { uid, displayName } = useSelector((store) => store.loginedUser);
+
   const [roomId, setRoomId] = useState("");
   const [room, setRoom] = useState({});
-  const [nickName, setNickName] = useState(displayName);
-  const [cameras, setCameras] = useState([]);
+  const [error, setError] = useState("");
+  const [deviceId, setDeviceId] = useState("");
 
-  const videoPreview = useRef();
-  const cameraSelect = useRef();
+  const validationSchema = yup.object({
+    nickname: yup
+      .string(t("page:room_submit:validation:enter_nickname"))
+      .max(20, t("page:room_submit:validation:valid_nickname"))
+      .required(t("page:room_submit:validation:require_nickname")),
+  });
 
-  let myStream;
+  const formik = useFormik({
+    initialValues: {
+      nickname: displayName,
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      onEntranceRoomSubmit(values.nickname);
+    },
+  });
 
   useEffect(async () => {
-    await getMedia();
     await getRoom();
   }, []);
-
-  const getMedia = async (deviceId) => {
-    const initialConstrains = {
-      audio: true,
-      video: { facingMode: "user" },
-    };
-    const cameraConstrains = {
-      audio: true,
-      video: { deviceId: { exact: deviceId } },
-    };
-
-    try {
-      myStream = await navigator.mediaDevices.getUserMedia(
-        deviceId ? cameraConstrains : initialConstrains
-      );
-      videoPreview.current.srcObject = myStream;
-      if (!deviceId) {
-        await getCameras();
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const getCameras = async () => {
-    try {
-      const devices = await navigator.mediaDevices.enumerateDevices();
-      const videoCameras = devices.filter(
-        (device) => device.kind === "videoinput"
-      );
-      const cameraArr = videoCameras.map((videoCamera) => ({
-        value: videoCamera.deviceId,
-        text: videoCamera.label,
-      }));
-      setCameras(cameraArr);
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   const getRoom = async () => {
     const sessionInfo = JSON.parse(
@@ -78,78 +60,66 @@ const Prepare = () => {
     }
   };
 
-  const handleCameraChange = async () => {
-    await getMedia(cameraSelect.current.value);
-  };
-
-  const onChange = (event) => {
-    const {
-      target: { name, value },
-    } = event;
-    setNickName(value);
-  };
-
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    if (nickName.length <= 0) {
-      // TODO: material validation form
-      console.log("check nickName");
-      return;
-    }
+  const onEntranceRoomSubmit = async (nickname) => {
     const sessionInfo = {
-      deviceId: cameraSelect.current.value,
-      nickName: nickName,
+      deviceId: deviceId,
+      nickName: nickname,
       entranceRoom: { id: roomId, ...room },
     };
     window.sessionStorage.setItem("sessionInfo", JSON.stringify(sessionInfo));
     history.push("/meetingroom");
   };
 
+  const onCameraChange = (deviceId) => {
+    setDeviceId(deviceId);
+  };
+
   return (
-    <>
-      <div className="media-container">
-        <video
-          ref={videoPreview}
-          autoPlay
-          playsInline
-          width="640px"
-          height="480px"
-        />
-        <br />
-        <select ref={cameraSelect} onChange={handleCameraChange}>
-          {cameras.map((item) => {
-            return (
-              <option key={item.value} value={item.value}>
-                {item.text}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-      <br />
-      <form onSubmit={onSubmit}>
-        닉네임:
-        <input
-          type="text"
+    <Container className="container prepare-room-container" maxWidth="xs">
+      <MediaInfo onCameraChange={onCameraChange}></MediaInfo>
+      <Box
+        className="prepare-room-box"
+        component="form"
+        noValidate
+        autoComplete="off"
+        onSubmit={formik.handleSubmit}
+      >
+        <TextField
           name="nickname"
-          onChange={onChange}
-          placeholder="닉네임을 입력하세요"
-          value={nickName}
-          maxLength={100}
+          label={t("page:prepare_room:nickname_label")}
+          variant="standard"
+          required
+          value={formik.values.nickname}
+          onChange={formik.handleChange}
+          error={formik.touched.nickname && Boolean(formik.errors.nickname)}
+          helperText={formik.touched.nickname && formik.errors.nickname}
         />
         <br />
-        <input type="submit" value="입장하기" />
-      </form>
-      <br />
-      <span>roomId: {roomId}</span>
-      <br />
-      <span>roomCreatorId: {room.creatorId}</span>
-      <br />
-      <span>roomCreatedAt: {room.createdAt}</span>
-      <br />
-      <span>roomName: {room.name}</span>
-      <br />
-    </>
+        <div className="prepare-room-info">
+          <div className="info-item prepare-room-name">
+            <span>{room.name}</span>
+          </div>
+          <div className="info-item prepare-room-creator">
+            <span>{room.creatorNickName}</span>
+            {room.creatorPhotoUrl ? (
+              <img className="creator-icon" src={room.creatorPhotoUrl} />
+            ) : (
+              <AccountCircleIcon className="anony creator-icon" />
+            )}
+          </div>
+          <div className="info-item prepare-room-time">
+            {DateTime.fromMillis(Number(room.createdAt)).toFormat(
+              "MM/dd HH:mm"
+            )}
+          </div>
+        </div>
+        <br />
+        <Button type="submit" variant="contained">
+          {t("page:prepare_room:entrance_room_label")}
+        </Button>
+      </Box>
+      <div className="error">{error}</div>
+    </Container>
   );
 };
 

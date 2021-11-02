@@ -31,5 +31,27 @@
   },
   "room_info": {
     "entrance": "입장하기"
+  },
+  "media_info": {
+    "select_camera_label": "Camera"
+  },
+  "create_room": {
+    "roomname_label": "회의실 이름",
+    "nickname_label": "닉네임",
+    "create_room_label": "만들기"
+  },
+  "prepare_room": {
+    "nickname_label": "닉네임",
+    "entrance_room_label": "입장하기"
+  },
+  "room_submit": {
+    "validation": {
+      "enter_roomname": "회의실 이름을 입력해 주세요",
+      "valid_roomname": "20자리 미만의 회의실 이름을 입력해 주세요",
+      "require_roomname": "회의실 이름은 필수 항목입니다",
+      "enter_nickname": "닉네임을 입력해 주세요",
+      "valid_nickname": "20자리 미만의 닉네임을 입력해 주세요",
+      "require_nickname": "닉네임은 필수 항목입니다"
+    }
   }
 }

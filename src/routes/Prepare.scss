@@ -1,0 +1,45 @@
+@import "src/style.scss";
+
+.prepare-room-box {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  .prepare-room-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center stretch;
+    flex-wrap: wrap;
+    .prepare-room-name {
+      color: $color-gray-4;
+      text-align: center;
+      flex: 1 1;
+      border-right: 1px solid $color-gray-4;
+    }
+    .prepare-room-creator {
+      display: flex;
+      justify-content: center;
+      flex: 1 1;
+      border-right: 1px solid $color-gray-4;
+      span,
+      .anony {
+        color: $color-gray-4;
+      }
+      .creator-icon {
+        margin-left: 4px;
+        width: 24px;
+        height: 24px;
+      }
+      img {
+        border-radius: 50%;
+      }
+    }
+    .prepare-room-time {
+      color: $color-gray-4;
+      text-align: center;
+      flex: 1 1;
+    }
+    .info-item {
+      padding: 4px 8px;
+    }
+  }
+}
