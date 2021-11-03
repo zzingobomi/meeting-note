@@ -17,8 +17,9 @@ import { Container } from "@mui/material";
 import "./MeetingRoom.scss";
 import Video from "components/Video";
 
-const ENDPOINT = "http://127.0.0.1:4000";
+//const ENDPOINT = "http://127.0.0.1:4000";
 //const ENDPOINT = "http://192.168.0.2:4000";
+const ENDPOINT = "https://node.zzingobomi.synology.me";
 
 const MeetingRoom = () => {
   const loginedUser = useSelector((store) => store.loginedUser);
@@ -64,7 +65,6 @@ const MeetingRoom = () => {
 
   const initWebRTC = async () => {
     await getMedia(deviceId);
-    //await makeConnection(localStream);
     handleSocket();
   };
 
