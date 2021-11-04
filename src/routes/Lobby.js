@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import RoomInfo from "../components/RoomInfo";
-import { dbService } from "../fbase";
+import { authService, dbService } from "../fbase";
 import { Card, CardContent } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import "./Lobby.scss";
@@ -32,14 +32,18 @@ const Lobby = () => {
       collection(dbService, "rooms"),
       orderBy("createdAt", "desc")
     );
-    onSnapshot(q, (snapshot) => {
-      // TODO: 이 snapshot 은 lobby 컴포넌트가 없어도 작동하는가?
-      // 방장이 나갔을때 다른 유저도 다같이 나가도록 해야 하는데..
+    const unsubscribe = onSnapshot(q, (snapshot) => {
       const roomArr = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
       setRooms(roomArr);
+    });
+
+    authService.onAuthStateChanged((user) => {
+      if (user === null) {
+        unsubscribe();
+      }
     });
   };
 

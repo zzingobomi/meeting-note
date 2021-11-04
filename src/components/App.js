@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { authService } from "../fbase";
 import Header from "./Header";
 import AppRouter from "./Router";
+import LoopIcon from "@mui/icons-material/Loop";
+import "./App.scss";
 
 function App() {
   const [init, setInit] = useState(false);
@@ -28,7 +30,9 @@ function App() {
           <AppRouter></AppRouter>
         </>
       ) : (
-        "loading..."
+        <div className="loading">
+          <LoopIcon className="icon" />
+        </div>
       )}
     </>
   );

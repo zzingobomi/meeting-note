@@ -2,6 +2,11 @@ import React from "react";
 import { deleteDoc, doc } from "@firebase/firestore";
 import { useTranslation } from "react-i18next";
 import { dbService } from "fbase";
+import { DateTime } from "luxon";
+import { IconButton } from "@mui/material";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import "./MessageInfo.scss";
 
 const MessageInfo = ({ messageObj, isOwner, roomId }) => {
   const { t } = useTranslation(["page"]);
@@ -20,10 +25,28 @@ const MessageInfo = ({ messageObj, isOwner, roomId }) => {
   };
 
   return (
-    <div className="message-box">
-      <span>Message: {messageObj.message}</span>
-      <span>createAt: {messageObj.createdAt}</span>
-      {isOwner ? <button onClick={onDeleteClick}>삭제</button> : ""}
+    <div className="message-info-box">
+      {messageObj.creatorPhotoUrl ? (
+        <img src={messageObj.creatorPhotoUrl} />
+      ) : (
+        <AccountCircleIcon className="anony" />
+      )}
+      <span className="nickname">{messageObj.creatorNickName}</span>
+      <span className="message">{messageObj.message}</span>
+      {/* 
+      <span className="message-time">
+        {DateTime.fromMillis(messageObj.createdAt).toFormat("MM/dd HH:mm")}
+      </span>*/}
+      {isOwner ? (
+        <IconButton
+          onClick={onDeleteClick}
+          aria-label={t("page:meetingroom_message:message_delete")}
+        >
+          <DeleteForeverIcon />
+        </IconButton>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

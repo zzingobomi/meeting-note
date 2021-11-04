@@ -54,8 +54,18 @@
       "require_nickname": "닉네임은 필수 항목입니다"
     }
   },
+  "meetingroom_message": {
+    "message_placeholder": "메세지를 입력해 주세요",
+    "message_button": "메세지 전송",
+    "message_delete": "메세지 삭제",
+    "validation": {
+      "enter_message": "메세지를 입력해 주세요",
+      "valid_message": "100자리 미만의 메세지를 입력해 주세요",
+      "require_message": "메세지를 입력해 주세요"
+    }
+  },
   "wrapup": {
-    "download_messages": "채팅 다운로드",
+    "download_messages": "CSV 파일로 내보내기",
     "goto_lobby": "로비로 가기"
   }
 }

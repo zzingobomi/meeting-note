@@ -1,7 +1,52 @@
 @import "src/style.scss";
 
-video {
-  display: inline-block;
-  width: 320px;
-  height: 240px;
+.meeting-room-container {
+  .video-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .messages-wrapper {
+    margin: auto;
+    margin-top: 24px;
+  }
+  .small {
+    max-width: 320px;
+  }
+  .large {
+    max-width: 648px;
+  }
+  .button-wrapper {
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
+    .mute {
+      margin-right: 24px;
+      width: 32px;
+      height: 32px;
+      background-color: $color-gray-1;
+      border-radius: 50%;
+      padding: 4px;
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .exit {
+      margin-left: 24px;
+      width: 32px;
+      height: 32px;
+      background-color: $color-gray-1;
+      border-radius: 50%;
+      padding: 4px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      svg {
+        width: 80%;
+        height: 80%;
+      }
+    }
+  }
 }

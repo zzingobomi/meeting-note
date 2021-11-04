@@ -1,25 +1,18 @@
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  onSnapshot,
-  orderBy,
-  query,
-} from "@firebase/firestore";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import { dbService } from "../fbase";
 import socketIOClient from "socket.io-client";
-import MessageInfo from "components/MessageInfo";
 import { Container } from "@mui/material";
+import MeetingRoomVideo from "components/MeetingRoomVideo";
+import MeetingRoomMessage from "components/MeetingRoomMessage";
+import MicIcon from "@mui/icons-material/Mic";
+import MicOffIcon from "@mui/icons-material/MicOff";
+import NoMeetingRoomIcon from "@mui/icons-material/NoMeetingRoom";
 import "./MeetingRoom.scss";
-import Video from "components/Video";
 
-//const ENDPOINT = "http://127.0.0.1:4000";
+const ENDPOINT = "http://localhost:4000";
 //const ENDPOINT = "http://192.168.0.2:4000";
-const ENDPOINT = "https://node.zzingobomi.synology.me";
+//const ENDPOINT = "https://node.zzingobomi.synology.me";
 
 const MeetingRoom = () => {
   const loginedUser = useSelector((store) => store.loginedUser);
@@ -31,28 +24,27 @@ const MeetingRoom = () => {
   const [deviceId, setDeviceId] = useState(sessionInfo.deviceId);
   const [nickName, setNickName] = useState(sessionInfo.nickName);
   const [entranceRoom, setEntranceRoom] = useState(sessionInfo.entranceRoom);
-  const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState("");
 
-  const [response, setResponse] = useState("");
-
-  const localVideo = useRef();
-
-  const [stream, setStream] = useState(null); // localStream
-
+  const [stream, setStream] = useState(null);
   const [socket, setSocket] = useState();
   const [users, setUsers] = useState([]);
+
+  const [isMuted, setIsMuted] = useState(false);
+  const [isMessagesSmallMode, setIsMessagesSmallMode] = useState(true);
+  const videoWrapper = useRef();
+
+  const { scrollY } = useScroll();
 
   let localStream;
   let newSocket;
   let pcs;
 
   useEffect(() => {
+    window.addEventListener("resize", computeMessagesMode);
+    computeMessagesMode();
     initWebRTC();
-    // TODO: message 처리
-    //getMessages();
-
     return () => {
+      window.removeEventListener("resize", computeMessagesMode);
       cleanupSocket();
     };
   }, []);
@@ -62,6 +54,10 @@ const MeetingRoom = () => {
       cleanupStream();
     };
   }, [stream]);
+
+  useEffect(() => {
+    computeMessagesMode();
+  }, [users]);
 
   const initWebRTC = async () => {
     await getMedia(deviceId);
@@ -90,7 +86,6 @@ const MeetingRoom = () => {
 
     try {
       localStream = await navigator.mediaDevices.getUserMedia(cameraConstrains);
-      localVideo.current.srcObject = localStream;
       setStream(localStream);
     } catch (error) {
       setError(error.message);
@@ -101,7 +96,7 @@ const MeetingRoom = () => {
     console.log("handleSocket");
     newSocket = socketIOClient(ENDPOINT);
     newSocket.on("sayhello", (data) => {
-      setResponse(data);
+      console.log("socket connected");
     });
 
     newSocket.emit("join_room", { room: entranceRoom.id, nickName: nickName });
@@ -262,49 +257,7 @@ const MeetingRoom = () => {
     return pc;
   };
 
-  const getMessages = () => {
-    const q = query(
-      collection(dbService, "rooms", entranceRoom.id, "messages"),
-      orderBy("createdAt", "asc")
-    );
-    onSnapshot(q, (snapshot) => {
-      const messageArr = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setMessages(messageArr);
-    });
-  };
-
-  const onChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setMessage(value);
-  };
-
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    if (message === "") {
-      return;
-    }
-
-    try {
-      const newMessage = {
-        message: message,
-        createdAt: Date.now(),
-        creatorId: loginedUser.uid,
-      };
-      const docRef = await addDoc(
-        collection(dbService, "rooms", entranceRoom.id, "messages"),
-        newMessage
-      );
-      setMessage("");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+  /*
   const deleteMyRoom = async () => {
     if (entranceRoom.creatorId === loginedUser.uid) {
       await deleteDoc(doc(dbService, `rooms/${entranceRoom.id}`));
@@ -318,6 +271,7 @@ const MeetingRoom = () => {
       history.push("/lobby");
     }
   };
+  */
 
   const onFinishClick = () => {
     const ok = window.confirm("정말 회의를 종료하시겠습니까?");
@@ -326,31 +280,88 @@ const MeetingRoom = () => {
     }
   };
 
-  const onMuteClick = () => {
+  const toggleMuteMode = () => {
     stream
       .getAudioTracks()
       .forEach((track) => (track.enabled = !track.enabled));
+    setIsMuted((prev) => !prev);
+  };
+
+  const computeMessagesMode = () => {
+    if (getVideoCountPerRow() > 1) {
+      setIsMessagesSmallMode(false);
+    } else {
+      setIsMessagesSmallMode(true);
+    }
+  };
+
+  const getVideoCountPerRow = () => {
+    const grid = Array.from(videoWrapper.current.children);
+    const baseOffset = grid[0].offsetTop;
+    const breakIndex = grid.findIndex((item) => item.offsetTop > baseOffset);
+    return breakIndex === -1 ? grid.length : breakIndex;
   };
 
   return (
-    <Container className="container meeting-room-container" maxWidth="lg">
-      <p>socket response: {response}</p>
-
-      <video ref={localVideo} autoPlay playsInline />
-
-      {users.map((user, index) => {
-        return (
-          <Video key={index} nickName={user.nickName} stream={user.stream} />
-        );
-      })}
-
-      <br />
-      <br />
-      <button onClick={onMuteClick}>음소거</button>
-      <button onClick={onDeleteClick}>방삭제</button>
-      <button onClick={onFinishClick}>회의종료</button>
+    <Container className="container meeting-room-container" maxWidth="md">
+      <div ref={videoWrapper} className="video-wrapper">
+        <MeetingRoomVideo nickName={nickName} stream={stream} isOwner="true" />
+        {users.map((user, index) => {
+          return (
+            <MeetingRoomVideo
+              key={index}
+              nickName={user.nickName}
+              stream={user.stream}
+            />
+          );
+        })}
+      </div>
+      <div
+        className={
+          "messages-wrapper " + (isMessagesSmallMode ? "small" : "large")
+        }
+      >
+        <div className="messages-box">
+          <MeetingRoomMessage
+            roomId={entranceRoom.id}
+            userId={loginedUser.uid}
+            userNickName={nickName}
+            userPhotoUrl={loginedUser.photoURL}
+          />
+        </div>
+      </div>
+      <div className="button-wrapper">
+        <div className="mute" onClick={toggleMuteMode}>
+          {isMuted ? <MicOffIcon /> : <MicIcon />}
+        </div>
+        <div className="exit" onClick={onFinishClick}>
+          <NoMeetingRoomIcon />
+        </div>
+      </div>
+      <div className="error">{error}</div>
     </Container>
   );
+};
+
+const useScroll = () => {
+  const [scrollY, setScrollY] = useState(0);
+
+  const listener = () => {
+    setScrollY(window.pageYOffset);
+  };
+
+  const delay = 15;
+
+  useEffect(() => {
+    window.addEventListener("scroll", listener);
+    return () => {
+      window.removeEventListener("scroll", listener);
+    };
+  });
+
+  return {
+    scrollY,
+  };
 };
 
 export default MeetingRoom;
