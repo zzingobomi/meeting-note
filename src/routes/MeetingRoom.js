@@ -67,8 +67,8 @@ const MeetingRoom = () => {
   };
 
   const cleanupSocket = () => {
-    if (socket) {
-      socket.close();
+    if (newSocket) {
+      newSocket.disconnect();
     }
   };
 
@@ -81,13 +81,19 @@ const MeetingRoom = () => {
   };
 
   const getMedia = async (deviceId) => {
+    const initialConstrains = {
+      audio: true,
+      video: { facingMode: "user" },
+    };
     const cameraConstrains = {
       audio: true,
       video: { deviceId: { exact: deviceId } },
     };
 
     try {
-      localStream = await navigator.mediaDevices.getUserMedia(cameraConstrains);
+      localStream = await navigator.mediaDevices.getUserMedia(
+        deviceId ? cameraConstrains : initialConstrains
+      );
       setStream(localStream);
     } catch (error) {
       setError(error.message);
@@ -104,9 +110,8 @@ const MeetingRoom = () => {
     newSocket.emit("join_room", { room: entranceRoom.id, nickName: nickName });
 
     newSocket.on("all_users", (allUsers) => {
-      console.log("allUsers");
-
       let len = allUsers.length;
+      console.log("allUsers count: ", allUsers.length);
 
       for (let i = 0; i < len; i++) {
         createPeerConnection(

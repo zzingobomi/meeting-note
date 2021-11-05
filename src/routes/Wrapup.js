@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   collection,
   doc,
@@ -29,9 +29,6 @@ const Wrapup = () => {
   const [durationTime, setDurationTime] = useState("");
   const [roomName, setRoomName] = useState("");
   const [messages, setMessages] = useState([]);
-
-  //let messages = [];
-  //const downloadElem = useRef();
 
   useEffect(() => {
     getRoom();
@@ -80,26 +77,6 @@ const Wrapup = () => {
     });
     setMessages(messageArr);
   };
-
-  /*
-  const downloadMessages = () => {    
-    //console.log(messages);
-    // TODO: creatorId 대신 닉네임을..?
-    let dataStr =
-      "data:text/json;charset=utf-8," +
-      encodeURIComponent(JSON.stringify(messages));
-    downloadElem.current.setAttribute("href", dataStr);
-    downloadElem.current.setAttribute("download", "messages.json");
-    downloadElem.current.click();    
-  };
-  */
-
-  /*
-  const onMessagesClick = async () => {
-    await getMessages();
-    downloadMessages();
-  };
-  */
 
   const onGotoLobbyClick = () => {
     history.push("/lobby");

@@ -24,7 +24,6 @@ const Prepare = () => {
   const [error, setError] = useState("");
   const [deviceId, setDeviceId] = useState("");
 
-  // TODO: 닉네임 없을 때 에러문구
   const validationSchema = yup.object({
     nickname: yup
       .string(t("page:room_submit:validation:enter_nickname"))
@@ -34,8 +33,7 @@ const Prepare = () => {
 
   const formik = useFormik({
     initialValues: {
-      // TODO: dispalyName
-      nickname: "test",
+      nickname: displayName ? displayName : "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
