@@ -30,7 +30,9 @@
     "create_room": "회의실 추가"
   },
   "room_info": {
-    "entrance": "입장하기"
+    "entrance": "입장하기",
+    "delete_confirm": "정말 회의실을 삭제하시겠습니까?",
+    "delete": "삭제하기"
   },
   "media_info": {
     "select_camera_label": "Camera"
@@ -54,10 +56,14 @@
       "require_nickname": "닉네임은 필수 항목입니다"
     }
   },
+  "meeting_room": {
+    "exit_confirm": "정말 회의를 종료하시겠습니까?"
+  },
   "meetingroom_message": {
     "message_placeholder": "메세지를 입력해 주세요",
     "message_button": "메세지 전송",
     "message_delete": "메세지 삭제",
+    "message_delete_confirm": "정말 메세지를 삭제하시겠습니까?",
     "validation": {
       "enter_message": "메세지를 입력해 주세요",
       "valid_message": "100자리 미만의 메세지를 입력해 주세요",

@@ -1,6 +1,6 @@
 @import "src/style.scss";
 
-.time-box {
+.wrapup-box {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -34,5 +34,24 @@
     margin-bottom: 24px;
     font-size: 48px;
     font-weight: bold;
+  }
+  .btn_export_csv {
+    margin-bottom: 8px;
+    border: none;
+    background-color: inherit;
+    padding: 6px 8px;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.75;
+    letter-spacing: 0.02857em;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    color: #1976d2;
+    &:hover {
+      background-color: #f6fafd;
+      border-radius: 4px;
+    }
   }
 }

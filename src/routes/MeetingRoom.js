@@ -9,12 +9,14 @@ import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
 import NoMeetingRoomIcon from "@mui/icons-material/NoMeetingRoom";
 import "./MeetingRoom.scss";
+import { useTranslation } from "react-i18next";
 
 const ENDPOINT = "http://localhost:4000";
 //const ENDPOINT = "http://192.168.0.2:4000";
 //const ENDPOINT = "https://node.zzingobomi.synology.me";
 
 const MeetingRoom = () => {
+  const { t } = useTranslation(["page"]);
   const loginedUser = useSelector((store) => store.loginedUser);
   const sessionInfo = JSON.parse(window.sessionStorage.getItem("sessionInfo"));
 
@@ -257,24 +259,8 @@ const MeetingRoom = () => {
     return pc;
   };
 
-  /*
-  const deleteMyRoom = async () => {
-    if (entranceRoom.creatorId === loginedUser.uid) {
-      await deleteDoc(doc(dbService, `rooms/${entranceRoom.id}`));
-    }
-  };
-
-  const onDeleteClick = () => {
-    const ok = window.confirm("정말 회의실을 삭제하시겠습니까?");
-    if (ok) {
-      deleteMyRoom();
-      history.push("/lobby");
-    }
-  };
-  */
-
   const onFinishClick = () => {
-    const ok = window.confirm("정말 회의를 종료하시겠습니까?");
+    const ok = window.confirm(t("page:meeting_room:exit_confirm"));
     if (ok) {
       history.push("/wrapup");
     }

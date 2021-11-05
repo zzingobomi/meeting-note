@@ -26,7 +26,6 @@ function App() {
     <>
       {init ? (
         <>
-          <Header></Header>
           <AppRouter></AppRouter>
         </>
       ) : (

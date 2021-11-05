@@ -1,0 +1,16 @@
+@import "src/style.scss";
+
+.not-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: $color-text-1;
+  .error-code {
+    font-size: 10rem;
+  }
+  .desc {
+    font-size: 2rem;
+  }
+}

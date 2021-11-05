@@ -9,6 +9,7 @@ import Wrapup from "routes/Wrapup";
 import NotFound from "routes/NotFound";
 import { useSelector } from "react-redux";
 import { Fragment } from "react";
+import Header from "./Header";
 
 export const FragmentSupportingSwitch = ({ children }) => {
   const flattenedChildren = [];
@@ -37,6 +38,7 @@ const AppRouter = () => {
 
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <Header></Header>
       <FragmentSupportingSwitch>
         {loginedUser ? (
           <>

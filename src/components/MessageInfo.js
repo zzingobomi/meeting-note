@@ -12,7 +12,9 @@ const MessageInfo = ({ messageObj, isOwner, roomId }) => {
   const { t } = useTranslation(["page"]);
 
   const onDeleteClick = () => {
-    const ok = window.confirm("정말 메세지를 삭제하시겠습니까?");
+    const ok = window.confirm(
+      t("page:meetingroom_message:message_delete_confirm")
+    );
     if (ok) {
       deleteMessage();
     }

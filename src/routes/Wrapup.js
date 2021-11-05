@@ -14,9 +14,9 @@ import { useHistory } from "react-router";
 import { Button, Container } from "@mui/material";
 import { DateTime } from "luxon";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
+import CsvDownload from "react-json-to-csv";
 import "./Wrapup.scss";
 
-// TODO: start, end 를 parameter 로 받아서..? DeteTime.now 는 refresh 시 계속 증가함..
 const Wrapup = () => {
   const { t } = useTranslation(["page"]);
   const history = useHistory();
@@ -27,12 +27,15 @@ const Wrapup = () => {
   const [error, setError] = useState("");
   const [startTime, setStartTime] = useState("");
   const [durationTime, setDurationTime] = useState("");
+  const [roomName, setRoomName] = useState("");
+  const [messages, setMessages] = useState([]);
 
-  let messages = [];
-  const downloadElem = useRef();
+  //let messages = [];
+  //const downloadElem = useRef();
 
   useEffect(() => {
     getRoom();
+    getMessages();
   }, []);
 
   const getRoom = async () => {
@@ -52,6 +55,7 @@ const Wrapup = () => {
           "MM/dd HH:mm"
         )
       );
+      setRoomName(docSnap.data().name);
     } else {
       setError("No such rooms");
     }
@@ -64,12 +68,21 @@ const Wrapup = () => {
       orderBy("createdAt", "asc")
     );
     const messageSnapshot = await getDocs(messagesQuery);
+    let messageArr = [];
     messageSnapshot.forEach((doc) => {
-      messages.push(doc.data());
+      messageArr.push({
+        nickName: doc.data().creatorNickName,
+        message: doc.data().message,
+        time: DateTime.fromMillis(Number(doc.data().createdAt)).toFormat(
+          "MM/dd HH:mm"
+        ),
+      });
     });
+    setMessages(messageArr);
   };
 
-  const downloadMessages = () => {
+  /*
+  const downloadMessages = () => {    
     //console.log(messages);
     // TODO: creatorId 대신 닉네임을..?
     let dataStr =
@@ -77,13 +90,16 @@ const Wrapup = () => {
       encodeURIComponent(JSON.stringify(messages));
     downloadElem.current.setAttribute("href", dataStr);
     downloadElem.current.setAttribute("download", "messages.json");
-    downloadElem.current.click();
+    downloadElem.current.click();    
   };
+  */
 
+  /*
   const onMessagesClick = async () => {
     await getMessages();
     downloadMessages();
   };
+  */
 
   const onGotoLobbyClick = () => {
     history.push("/lobby");
@@ -91,7 +107,7 @@ const Wrapup = () => {
 
   return (
     <Container className="container wrapup-container" maxWidth="xs">
-      <div className="time-box">
+      <div className="wrapup-box">
         <DirectionsRunIcon className="run-icon" />
         <div className="timeline">
           <div className="line"></div>
@@ -107,10 +123,13 @@ const Wrapup = () => {
           ""
         ) : (
           <>
-            <a ref={downloadElem} style={{ display: "none" }}></a>
-            <Button onClick={onMessagesClick}>
+            <CsvDownload
+              className="btn_export_csv"
+              filename={roomName + ".csv"}
+              data={messages}
+            >
               {t("page:wrapup:download_messages")}
-            </Button>
+            </CsvDownload>
           </>
         )}
         <Button onClick={onGotoLobbyClick}>

@@ -4,10 +4,12 @@ import { authService } from "fbase";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { useHistory } from "react-router";
 import "./Header.scss";
 
 const Header = () => {
   const { t } = useTranslation(["page"]);
+  const history = useHistory();
   const loginedUser = useSelector((store) => store.loginedUser);
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -26,11 +28,17 @@ const Header = () => {
     authService.signOut();
   };
 
+  const onGotoHomeClick = () => {
+    history.push("/");
+  };
+
   return (
     <header className="header">
       <Container maxWidth="lg">
         <div className="header-container">
-          <span className="logo">Meeting Note</span>
+          <span className="logo" onClick={onGotoHomeClick}>
+            Meeting Note
+          </span>
           <Menu
             id="basic-menu"
             anchorEl={anchorEl}
