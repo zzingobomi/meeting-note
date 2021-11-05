@@ -22,7 +22,6 @@ const RoomInfo = ({ roomObj, isOwner }) => {
   };
 
   const deleteMyRoom = async () => {
-    // TODO: 내부 채팅 문서도 모두 삭제..
     await deleteDoc(doc(dbService, `rooms/${roomObj.id}`));
   };
 

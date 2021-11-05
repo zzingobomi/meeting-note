@@ -57,7 +57,9 @@ const MeetingRoomMessage = ({ roomId, userId, userNickName, userPhotoUrl }) => {
         ...doc.data(),
       }));
       setMessages(messageArr);
-      messagesList.current.scrollTop = messagesList.current.scrollHeight;
+      if (messagesList.current) {
+        messagesList.current.scrollTop = messagesList.current.scrollHeight;
+      }
     });
 
     authService.onAuthStateChanged((user) => {
