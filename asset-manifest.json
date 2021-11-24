@@ -1,13 +1,15 @@
 {
   "files": {
     "main.css": "/meeting-note/static/css/main.2e553f33.chunk.css",
-    "main.js": "/meeting-note/static/js/main.4d662916.chunk.js",
-    "main.js.map": "/meeting-note/static/js/main.4d662916.chunk.js.map",
+    "main.js": "/meeting-note/static/js/main.c412ca08.chunk.js",
+    "main.js.map": "/meeting-note/static/js/main.c412ca08.chunk.js.map",
     "runtime-main.js": "/meeting-note/static/js/runtime-main.c28fe694.js",
     "runtime-main.js.map": "/meeting-note/static/js/runtime-main.c28fe694.js.map",
     "static/js/2.de053a76.chunk.js": "/meeting-note/static/js/2.de053a76.chunk.js",
     "static/js/2.de053a76.chunk.js.map": "/meeting-note/static/js/2.de053a76.chunk.js.map",
     "index.html": "/meeting-note/index.html",
+    "service-worker.js": "/meeting-note/service-worker.js",
+    "service-worker.js.map": "/meeting-note/service-worker.js.map",
     "static/css/main.2e553f33.chunk.css.map": "/meeting-note/static/css/main.2e553f33.chunk.css.map",
     "static/js/2.de053a76.chunk.js.LICENSE.txt": "/meeting-note/static/js/2.de053a76.chunk.js.LICENSE.txt"
   },
@@ -15,6 +17,6 @@
     "static/js/runtime-main.c28fe694.js",
     "static/js/2.de053a76.chunk.js",
     "static/css/main.2e553f33.chunk.css",
-    "static/js/main.4d662916.chunk.js"
+    "static/js/main.c412ca08.chunk.js"
   ]
 }
