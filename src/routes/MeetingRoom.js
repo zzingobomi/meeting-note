@@ -11,9 +11,9 @@ import NoMeetingRoomIcon from "@mui/icons-material/NoMeetingRoom";
 import "./MeetingRoom.scss";
 import { useTranslation } from "react-i18next";
 
-const ENDPOINT = "http://localhost:4000";
+//const ENDPOINT = "http://localhost:4000";
 //const ENDPOINT = "http://192.168.0.2:4000";
-//const ENDPOINT = "https://node.zzingobomi.synology.me";
+const ENDPOINT = "https://node.zzingobomi.synology.me";
 
 const MeetingRoom = () => {
   const { t } = useTranslation(["page"]);
