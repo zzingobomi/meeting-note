@@ -113,7 +113,7 @@ section {
   }
   p {
     font-family: "Noto Sans KR", sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
   .blob1 {
     position: absolute;
@@ -158,9 +158,11 @@ section {
   }
   p {
     font-family: "Noto Sans KR", sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     word-break: keep-all;
-    margin-bottom: 64px;
+    white-space: pre-wrap;
+    margin-top: 48px;
+    margin-bottom: 48px;
   }
   .btn-login {
     margin-bottom: 48px;

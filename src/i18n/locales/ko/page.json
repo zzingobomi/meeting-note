@@ -5,14 +5,14 @@
     "logout": "로그아웃"
   },
   "home": {
-    "login": "로그인하기",
+    "login": "로그인",
     "header_title": "MeetingNote",
     "header_desc_title": "화상회의와 회의록 작성을 동시에",
     "header_desc": "MeetingNote 포트폴리오는 실시간 화상회의를 위한 서비스입니다\n\n데스크탑, 모바일등 어디서든 회의실을 만들어 사람들과 회의를 할 수 있습니다\n\n회의때 논의되었던 채팅목록은 회의가 끝난 후 다운로드 받아 회의록을 작성 할 수 있습니다",
     "introduce_title": "INTRODUCE",
     "introduce": "아래의 소개영상에 따라 MeetingNote를 이용하실 수 있습니다",
     "skills_title": "React + WebRTC + PWA",
-    "skills_desc": "React를 이용해 전체적인 페이지를 제작했습니다. 화상회의는 WebRTC를 이용해 구현하였으며 signaling 을 위해 제 개인 Synology NAS에 websocket 서버를 구현하였습니다. 로그인 및 회의실 목록, 채팅 목록 등은 Firebase를 이용해서 정보를 처리하도록 했습니다. 편의성을 위해 PWA를 적용시켜 데스크탑 및 모바일에서도 앱처럼 사용할 수 있습니다."
+    "skills_desc": "React 를 이용해 전체적인 페이지 제작\n\nWebRTC 를 이용해 화상회의 구현\n\n개인 Synology NAS 에 Signaling 서버 구현\n\nFirebase 를 이용해 Firestore Database 구축\n\n편의성을 위해 PWA 적용"
   },
   "auth": {
     "login_with_anony": "익명 로그인",
