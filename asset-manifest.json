@@ -1,22 +1,28 @@
 {
   "files": {
-    "main.css": "/meeting-note/static/css/main.2e553f33.chunk.css",
-    "main.js": "/meeting-note/static/js/main.c412ca08.chunk.js",
-    "main.js.map": "/meeting-note/static/js/main.c412ca08.chunk.js.map",
+    "main.css": "/meeting-note/static/css/main.e878ffa2.chunk.css",
+    "main.js": "/meeting-note/static/js/main.0324662b.chunk.js",
+    "main.js.map": "/meeting-note/static/js/main.0324662b.chunk.js.map",
     "runtime-main.js": "/meeting-note/static/js/runtime-main.c28fe694.js",
     "runtime-main.js.map": "/meeting-note/static/js/runtime-main.c28fe694.js.map",
-    "static/js/2.de053a76.chunk.js": "/meeting-note/static/js/2.de053a76.chunk.js",
-    "static/js/2.de053a76.chunk.js.map": "/meeting-note/static/js/2.de053a76.chunk.js.map",
+    "static/js/2.7d070ac9.chunk.js": "/meeting-note/static/js/2.7d070ac9.chunk.js",
+    "static/js/2.7d070ac9.chunk.js.map": "/meeting-note/static/js/2.7d070ac9.chunk.js.map",
     "index.html": "/meeting-note/index.html",
     "service-worker.js": "/meeting-note/service-worker.js",
     "service-worker.js.map": "/meeting-note/service-worker.js.map",
-    "static/css/main.2e553f33.chunk.css.map": "/meeting-note/static/css/main.2e553f33.chunk.css.map",
-    "static/js/2.de053a76.chunk.js.LICENSE.txt": "/meeting-note/static/js/2.de053a76.chunk.js.LICENSE.txt"
+    "static/css/main.e878ffa2.chunk.css.map": "/meeting-note/static/css/main.e878ffa2.chunk.css.map",
+    "static/js/2.7d070ac9.chunk.js.LICENSE.txt": "/meeting-note/static/js/2.7d070ac9.chunk.js.LICENSE.txt",
+    "static/media/header-shape-divider-bottom.e42ddec9.svg": "/meeting-note/static/media/header-shape-divider-bottom.e42ddec9.svg",
+    "static/media/header.e0f7eec3.svg": "/meeting-note/static/media/header.e0f7eec3.svg",
+    "static/media/section1-blob-1.33f9de99.svg": "/meeting-note/static/media/section1-blob-1.33f9de99.svg",
+    "static/media/section1-blob-2.893d051a.svg": "/meeting-note/static/media/section1-blob-2.893d051a.svg",
+    "static/media/section2-bottom-tilt.053b40e8.svg": "/meeting-note/static/media/section2-bottom-tilt.053b40e8.svg",
+    "static/media/section2-top-tilt.053b40e8.svg": "/meeting-note/static/media/section2-top-tilt.053b40e8.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.c28fe694.js",
-    "static/js/2.de053a76.chunk.js",
-    "static/css/main.2e553f33.chunk.css",
-    "static/js/main.c412ca08.chunk.js"
+    "static/js/2.7d070ac9.chunk.js",
+    "static/css/main.e878ffa2.chunk.css",
+    "static/js/main.0324662b.chunk.js"
   ]
 }
