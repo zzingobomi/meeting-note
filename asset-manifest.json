@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/meeting-note/static/css/main.9280609f.chunk.css",
-    "main.js": "/meeting-note/static/js/main.0324662b.chunk.js",
-    "main.js.map": "/meeting-note/static/js/main.0324662b.chunk.js.map",
+    "main.css": "/meeting-note/static/css/main.02fc321e.chunk.css",
+    "main.js": "/meeting-note/static/js/main.6ea7fe8b.chunk.js",
+    "main.js.map": "/meeting-note/static/js/main.6ea7fe8b.chunk.js.map",
     "runtime-main.js": "/meeting-note/static/js/runtime-main.c28fe694.js",
     "runtime-main.js.map": "/meeting-note/static/js/runtime-main.c28fe694.js.map",
     "static/js/2.7d070ac9.chunk.js": "/meeting-note/static/js/2.7d070ac9.chunk.js",
@@ -10,7 +10,7 @@
     "index.html": "/meeting-note/index.html",
     "service-worker.js": "/meeting-note/service-worker.js",
     "service-worker.js.map": "/meeting-note/service-worker.js.map",
-    "static/css/main.9280609f.chunk.css.map": "/meeting-note/static/css/main.9280609f.chunk.css.map",
+    "static/css/main.02fc321e.chunk.css.map": "/meeting-note/static/css/main.02fc321e.chunk.css.map",
     "static/js/2.7d070ac9.chunk.js.LICENSE.txt": "/meeting-note/static/js/2.7d070ac9.chunk.js.LICENSE.txt",
     "static/media/header-shape-divider-bottom.e42ddec9.svg": "/meeting-note/static/media/header-shape-divider-bottom.e42ddec9.svg",
     "static/media/header.e0f7eec3.svg": "/meeting-note/static/media/header.e0f7eec3.svg",
@@ -22,7 +22,7 @@
   "entrypoints": [
     "static/js/runtime-main.c28fe694.js",
     "static/js/2.7d070ac9.chunk.js",
-    "static/css/main.9280609f.chunk.css",
-    "static/js/main.0324662b.chunk.js"
+    "static/css/main.02fc321e.chunk.css",
+    "static/js/main.6ea7fe8b.chunk.js"
   ]
 }
