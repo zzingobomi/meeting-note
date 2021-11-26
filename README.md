@@ -13,5 +13,5 @@
 # 할일
 
 - 페이스북 test 앱 live 앱으로 변경
-- 홈페이지 디자인 적용 (https://www.elegantthemes.com/)
 - 모바일카메라 배경 적용
+- 소개영상 제작
