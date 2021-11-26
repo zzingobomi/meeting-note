@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import Home from "routes/Home";
 import Auth from "routes/Auth";
 import Lobby from "routes/Lobby";
 import CreateRoom from "routes/CreateRoom";
@@ -38,34 +39,57 @@ const AppRouter = () => {
 
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <Header></Header>
       <FragmentSupportingSwitch>
         {loginedUser ? (
           <>
             <Route exact path="/">
+              <Home></Home>
+            </Route>
+            <Route exact path="/login">
               <Redirect to="/lobby" />
             </Route>
             <Route exact path="/lobby">
-              <Lobby></Lobby>
+              <>
+                <Header></Header>
+                <Lobby></Lobby>
+              </>
             </Route>
             <Route exact path="/createroom">
-              <CreateRoom></CreateRoom>
+              <>
+                <Header></Header>
+                <CreateRoom></CreateRoom>
+              </>
             </Route>
             <Route exact path="/prepare">
-              <Prepare></Prepare>
+              <>
+                <Header></Header>
+                <Prepare></Prepare>
+              </>
             </Route>
             <Route exact path="/meetingroom">
-              <MeetingRoom></MeetingRoom>
+              <>
+                <Header></Header>
+                <MeetingRoom></MeetingRoom>
+              </>
             </Route>
             <Route exact path="/wrapup">
-              <Wrapup></Wrapup>
+              <>
+                <Header></Header>
+                <Wrapup></Wrapup>
+              </>
             </Route>
             <Route path="*" component={NotFound} />
           </>
         ) : (
           <>
             <Route exact path="/">
-              <Auth></Auth>
+              <Home></Home>
+            </Route>
+            <Route exact path="/login">
+              <>
+                <Header></Header>
+                <Auth></Auth>
+              </>
             </Route>
             <Route path="*">
               <Redirect to="/" />

@@ -1,5 +1,5 @@
 @import "src/style.scss";
-@import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap");
 
 header {
   z-index: 50;
@@ -19,7 +19,8 @@ header {
   align-items: center;
   .logo {
     cursor: pointer;
-    font-family: "Permanent Marker", cursive;
+    font-family: "Lato", sans-serif;
+    font-weight: 900;
     font-size: 2rem;
   }
   .user-info {

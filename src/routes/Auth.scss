@@ -10,12 +10,21 @@
   flex-direction: column;
   .btn-anony {
     background-color: $color-gray-2;
+    &:hover {
+      background-color: $color-gray-5;
+    }
   }
   .btn-google {
     color: $color-text-1;
     background-color: $color-google;
+    &:hover {
+      background-color: $color-gray-1;
+    }
   }
   .btn-facebook {
     background-color: $color-facebook;
+    &:hover {
+      background-color: $color-gradient-2;
+    }
   }
 }

@@ -1,0 +1,230 @@
+@import "src/style.scss";
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
+
+section {
+  padding-top: 48px;
+  padding-bottom: 48px;
+  text-align: center;
+  background-color: white;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .link {
+    text-decoration: none;
+    .btn {
+      font-size: 1.5rem;
+      color: white;
+      padding: 4px 32px;
+      background-color: $color-gradient-5;
+      border-radius: 48px;
+      &:hover {
+        background-color: $color-gradient-4;
+      }
+    }
+  }
+}
+
+.home-header {
+  padding-top: 80px;
+  position: relative;
+  background-color: $color-primary;
+  color: white;
+  background: $color-gradient-1;
+  background: linear-gradient(
+    73deg,
+    $color-gradient-1 0%,
+    $color-gradient-2 60%,
+    $color-gradient-3 74%,
+    $color-gradient-4 82%,
+    $color-gradient-5 92%,
+    $color-gradient-6 100%
+  );
+  .wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .wrapper-left {
+      display: flex;
+      flex-direction: column;
+      text-align: start;
+      align-items: flex-start;
+      .title {
+        font-family: "Lato", sans-serif;
+        font-weight: 900;
+        font-size: 5rem;
+        margin-bottom: 48px;
+        word-break: break-all;
+      }
+      .desc-title {
+        font-family: "Noto Sans KR", sans-serif;
+        font-weight: 700;
+        font-size: 2rem;
+        margin-bottom: 24px;
+      }
+      .desc {
+        font-family: "Noto Sans KR", sans-serif;
+        font-weight: 400;
+        white-space: pre-wrap;
+        font-size: 1rem;
+      }
+      .btn-login {
+        margin-top: 32px;
+        margin-bottom: 48px;
+        z-index: 1;
+      }
+    }
+    .img-header {
+      width: 50%;
+      height: 50%;
+    }
+  }
+
+  .shape-divider-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+    svg {
+      position: relative;
+      display: block;
+      width: calc(132% + 1.3px);
+      height: 120px;
+    }
+    .shape-fill {
+      fill: #ffffff;
+    }
+  }
+}
+
+.section-1 {
+  color: $color-text-2;
+  .title {
+    font-family: "Lato", sans-serif;
+    font-weight: 900;
+    font-size: 3rem;
+    color: black;
+  }
+  p {
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 1.5rem;
+  }
+  .blob1 {
+    position: absolute;
+    left: -33%;
+    bottom: -34%;
+    width: 100%;
+    height: 100%;
+    transform: rotate(45deg);
+  }
+  .blob2 {
+    position: absolute;
+    top: -10%;
+    right: -1%;
+    width: 30%;
+    height: 30%;
+  }
+  .video-wrapper {
+    position: relative;
+    margin-top: 64px;
+    margin-bottom: 64px;
+    .introduce-video {
+      position: relative;
+      border-radius: 8px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+  }
+}
+
+.section-2 {
+  position: relative;
+  background-color: $color-skyblue;
+  color: $color-text-1;
+
+  .title {
+    padding-top: 48px;
+    font-size: 3rem;
+    font-family: "Lato", sans-serif;
+    font-weight: 900;
+    color: black;
+  }
+  p {
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 1.5rem;
+    word-break: keep-all;
+  }
+  .btn-login {
+    margin-bottom: 48px;
+  }
+
+  .top-tilt {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    svg {
+      position: relative;
+      display: block;
+      width: calc(100% + 1.3px);
+      height: 96px;
+      transform: rotateY(180deg);
+    }
+    .shape-fill {
+      fill: #ffffff;
+    }
+  }
+
+  .bottom-tilt {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+    svg {
+      position: relative;
+      display: block;
+      width: calc(100% + 1.3px);
+      height: 96px;
+      transform: rotateY(180deg);
+    }
+    .shape-fill {
+      fill: #ffffff;
+    }
+  }
+}
+
+.footer {
+  div {
+    margin-bottom: 8px;
+  }
+  a {
+    text-decoration: none;
+    color: $color-text-1;
+  }
+}
+
+@media screen and (max-width: 688px) {
+  .introduce-video {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .home-header {
+    padding-top: 48px;
+  }
+  .img-header {
+    display: none;
+  }
+}
