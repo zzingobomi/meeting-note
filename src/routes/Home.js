@@ -45,7 +45,7 @@ const Home = () => {
           <div className="video-wrapper">
             <Blob1 className="blob1" />
             <Blob2 className="blob2" />
-            <YouTube className="introduce-video" videoId="2yNcUhwYmws" />
+            <YouTube className="introduce-video" videoId="9oLSZiVXUQ8" />
           </div>
           <Link className="link" to="/login">
             <Button className="btn btn-login" variant="contained">

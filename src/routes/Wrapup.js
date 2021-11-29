@@ -96,19 +96,13 @@ const Wrapup = () => {
           </span>
         </div>
         <span className="duration">{durationTime}</span>
-        {loginedUser.isAnonymous ? (
-          ""
-        ) : (
-          <>
-            <CsvDownload
-              className="btn_export_csv"
-              filename={roomName + ".csv"}
-              data={messages}
-            >
-              {t("page:wrapup:download_messages")}
-            </CsvDownload>
-          </>
-        )}
+        <CsvDownload
+          className="btn_export_csv"
+          filename={roomName + ".csv"}
+          data={messages}
+        >
+          {t("page:wrapup:download_messages")}
+        </CsvDownload>
         <Button onClick={onGotoLobbyClick}>
           {t("page:wrapup:goto_lobby")}
         </Button>
