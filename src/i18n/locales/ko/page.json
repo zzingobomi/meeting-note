@@ -12,7 +12,11 @@
     "introduce_title": "INTRODUCE",
     "introduce": "아래의 소개영상에 따라 MeetingNote를 이용하실 수 있습니다",
     "skills_title": "React + WebRTC + PWA",
-    "skills_desc": "React 를 이용해 전체적인 페이지 제작\n\nWebRTC 를 이용해 화상회의 구현\n\n개인 Synology NAS 에 Signaling 서버 구현\n\nFirebase 를 이용해 Firestore Database 구축\n\n편의성을 위해 PWA 적용"
+    "skills_desc": "React 를 이용해 전체적인 페이지 제작\n\nWebRTC 를 이용해 화상회의 구현\n\n개인 Synology NAS 에 Signaling 서버 구현\n\nFirebase 를 이용해 Firestore Database 구축\n\n편의성을 위해 PWA 적용",
+    "footer": {
+      "github": "https://github.com/zzingobomi/meeting-note",
+      "license": "Abstract 벡터는 vectorjuice - kr.freepik.com가 제작함"
+    }
   },
   "auth": {
     "login_with_anony": "익명 로그인",

@@ -1,17 +1,41 @@
-# 배포
+<h1 align="center">
+  <a href="https://zzingobomi.github.io/meeting-note"><img src="./main-logo.png" alt="MeetingNote" height="250px"></a>
+  <br>
+  MeetingNote
+  <br>
+</h1>
+<br>
 
-- npm run deploy
+### React
 
-# Dev Https 실행
+- Rect를 이용하여 전체 페이지 제작
+- React Redux를 이용하여 로그인된 유저 정보 관리
+- MUI 라이브러리를 사용하여 Material 디자인 적용
+- formic 라이브러리를 사용하여 form validation 적용
+- i18next 라이브러리를 사용하여 다국어 지원
+- SCSS를 이용하여 스타일링
 
-- desktop, notebook 둘다 lovalhost 일때는 정상적으로 작동
-- getUserMedia 는 https or localhost 에서만 실행 가능
-- set HTTPS=true&&npm start (HTTPS 로 실행)
-- set HTTPS=false&&npm start (HTTP 로 실행)
-- server.js origin domain 에 맞게
+### WebRTC
 
-# 할일
+- WebRTC 기능을 이용하여 미디어 장치 제어
+- WebRTC를 이용하여 최소한의 latency로 실시간 화상회의 가능
 
-- 페이스북 test 앱 live 앱으로 변경
-- 모바일카메라 배경 적용
-- 소개영상 제작
+### Backend
+
+- Node.js로 Signaling 서버 구현
+- Websocket을 통해 각 프론트엔드와 통신
+- 개인 Synology NAS에 https 서버 적용
+
+### Firebase
+
+- Firebase Auth를 이용해 로그인 및 인증 구현
+- 회의실 목록, 채팅 목록 등은 Firestore Database로 관리
+
+### PWA
+
+- 편의성을 위해 PWA 적용
+- 데스크탑, 모바일에서 앱처럼 사용 가능
+
+<br>
+
+[Abstract 벡터는 vectorjuice - kr.freepik.com가 제작함](https://kr.freepik.com/vectors/abstract)

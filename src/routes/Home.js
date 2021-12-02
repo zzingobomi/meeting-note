@@ -75,12 +75,12 @@ const Home = () => {
         <Container maxWidth="md">
           <div>
             <a href="https://github.com/zzingobomi/meeting-note">
-              https://github.com/zzingobomi/meeting-note
+              {t("page:home:footer:github")}
             </a>
           </div>
           <div>
             <a href="https://kr.freepik.com/vectors/abstract">
-              Abstract 벡터는 vectorjuice - kr.freepik.com가 제작함
+              {t("page:home:footer:license")}
             </a>
           </div>
         </Container>
