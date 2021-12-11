@@ -12,9 +12,12 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { DateTime } from "luxon";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import usePageTracking from "usePageTracking";
+import ReactGA from "react-ga";
 import "./Prepare.scss";
 
 const Prepare = () => {
+  usePageTracking();
   const { t } = useTranslation(["page"]);
   const history = useHistory();
   const { uid, displayName } = useSelector((store) => store.loginedUser);
@@ -68,6 +71,11 @@ const Prepare = () => {
     };
     window.sessionStorage.setItem("sessionInfo", JSON.stringify(sessionInfo));
     history.push("/meetingroom");
+    ReactGA.event({
+      category: "room",
+      action: "entrance",
+      label: "prepare",
+    });
   };
 
   const onCameraChange = (deviceId) => {

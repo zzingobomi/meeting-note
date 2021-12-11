@@ -12,7 +12,6 @@ function App() {
 
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
-      console.log("onAuthStateChanged");
       if (user) {
         dispatch({ type: "AUTH_STATE_CHANGED", user: user });
       } else {

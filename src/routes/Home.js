@@ -9,9 +9,11 @@ import { ReactComponent as TopTilt } from "assets/home/section2-top-tilt.svg";
 import { ReactComponent as BottomTilt } from "assets/home/section2-bottom-tilt.svg";
 import { ReactComponent as Blob1 } from "assets/home/section1-blob-1.svg";
 import { ReactComponent as Blob2 } from "assets/home/section1-blob-2.svg";
+import usePageTracking from "usePageTracking";
 import "./Home.scss";
 
 const Home = () => {
+  usePageTracking();
   const { t } = useTranslation(["page"]);
 
   return (

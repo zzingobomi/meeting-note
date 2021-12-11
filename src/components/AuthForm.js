@@ -10,6 +10,7 @@ import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import ReactGA from "react-ga";
 import "./AuthForm.scss";
 
 const AuthForm = () => {
@@ -54,6 +55,11 @@ const AuthForm = () => {
     } catch (error) {
       setError(error.message);
     }
+    ReactGA.event({
+      category: "login",
+      action: "click",
+      label: "email",
+    });
   };
 
   const toggleCreateMode = () => setCreateMode((prev) => !prev);

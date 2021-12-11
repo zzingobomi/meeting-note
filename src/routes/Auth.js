@@ -12,9 +12,12 @@ import { Button, Container } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
+import usePageTracking from "usePageTracking";
+import ReactGA from "react-ga";
 import "./Auth.scss";
 
 const Auth = () => {
+  usePageTracking();
   const { t } = useTranslation(["page"]);
   const [error, setError] = useState("");
 
@@ -24,6 +27,11 @@ const Auth = () => {
     } catch (error) {
       setError(error.message);
     }
+    ReactGA.event({
+      category: "login",
+      action: "click",
+      label: "anonymous",
+    });
   };
 
   const onSocialClick = async (event, type) => {
@@ -41,6 +49,11 @@ const Auth = () => {
     } catch (error) {
       setError(error.message);
     }
+    ReactGA.event({
+      category: "login",
+      action: "click",
+      label: type,
+    });
   };
 
   return (

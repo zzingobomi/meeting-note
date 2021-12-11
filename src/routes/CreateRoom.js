@@ -11,9 +11,12 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import MediaInfo from "components/MediaInfo";
 import { DateTime } from "luxon";
+import usePageTracking from "usePageTracking";
+import ReactGA from "react-ga";
 import "./CreateRoom.scss";
 
 const CreateRoom = () => {
+  usePageTracking();
   const { t } = useTranslation(["page"]);
   const history = useHistory();
   const { uid, displayName, photoURL } = useSelector(
@@ -66,6 +69,11 @@ const CreateRoom = () => {
     } catch (error) {
       setError(error);
     }
+    ReactGA.event({
+      category: "room",
+      action: "entrance",
+      label: "create",
+    });
   };
 
   const onCameraChange = (deviceId) => {

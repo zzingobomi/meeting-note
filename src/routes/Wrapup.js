@@ -15,9 +15,11 @@ import { Button, Container } from "@mui/material";
 import { DateTime } from "luxon";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 import CsvDownload from "react-json-to-csv";
+import usePageTracking from "usePageTracking";
 import "./Wrapup.scss";
 
 const Wrapup = () => {
+  usePageTracking();
   const { t } = useTranslation(["page"]);
   const history = useHistory();
 

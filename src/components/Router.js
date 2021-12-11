@@ -35,7 +35,6 @@ function flatten(target, children) {
 
 const AppRouter = () => {
   const loginedUser = useSelector((store) => store.loginedUser);
-  console.log("AppRouter");
 
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>

@@ -8,14 +8,16 @@ import MeetingRoomMessage from "components/MeetingRoomMessage";
 import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
 import NoMeetingRoomIcon from "@mui/icons-material/NoMeetingRoom";
-import "./MeetingRoom.scss";
 import { useTranslation } from "react-i18next";
+import usePageTracking from "usePageTracking";
+import "./MeetingRoom.scss";
 
 //const ENDPOINT = "http://localhost:4000";
 //const ENDPOINT = "http://192.168.0.2:4000";
 const ENDPOINT = "https://node.zzingobomi.synology.me";
 
 const MeetingRoom = () => {
+  usePageTracking();
   const { t } = useTranslation(["page"]);
   const loginedUser = useSelector((store) => store.loginedUser);
   const sessionInfo = JSON.parse(window.sessionStorage.getItem("sessionInfo"));

@@ -14,9 +14,11 @@ import RoomInfo from "../components/RoomInfo";
 import { authService, dbService } from "../fbase";
 import { Card, CardContent } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import usePageTracking from "usePageTracking";
 import "./Lobby.scss";
 
 const Lobby = () => {
+  usePageTracking();
   const { t } = useTranslation(["page"]);
   const history = useHistory();
   const loginedUser = useSelector((store) => store.loginedUser);
