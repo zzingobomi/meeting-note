@@ -8,7 +8,7 @@
 
 ### React
 
-- Rect를 이용하여 전체 페이지 제작
+- React를 이용하여 전체 페이지 제작
 - React Redux를 이용하여 로그인된 유저 정보 관리
 - MUI 라이브러리를 사용하여 Material 디자인 적용
 - formic 라이브러리를 사용하여 form validation 적용
