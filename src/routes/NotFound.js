@@ -1,11 +1,11 @@
 import React from "react";
-import "./NotFound.scss";
+import styles from "./NotFound.module.scss";
 
 const NotFound = () => {
   return (
-    <div className="not-found">
-      <div className="error-code">404</div>
-      <div className="desc">Not Found</div>
+    <div className={styles.not_found}>
+      <div className={styles.error_code}>404</div>
+      <div className={styles.desc}>Not Found</div>
     </div>
   );
 };

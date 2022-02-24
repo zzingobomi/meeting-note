@@ -1,6 +1,6 @@
 @import "src/style.scss";
 
-.messages-list {
+.messages_list {
   max-height: 200px;
   overflow-y: auto;
   &::-webkit-scrollbar {
@@ -20,6 +20,6 @@
     border-radius: 4px;
   }
 }
-.message-box {
+.message_box {
   margin-top: 16px;
 }

@@ -11,7 +11,7 @@ import { Button } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import ReactGA from "react-ga";
-import "./AuthForm.scss";
+import styles from "./AuthForm.module.scss";
 
 const AuthForm = () => {
   const { t } = useTranslation(["page"]);
@@ -67,7 +67,7 @@ const AuthForm = () => {
   return (
     <>
       <Box
-        className="login-box"
+        className={styles.box}
         component="form"
         noValidate
         autoComplete="off"
@@ -103,10 +103,10 @@ const AuthForm = () => {
             : t("page:auth_form:sign_in")}
         </Button>
       </Box>
-      <Button className="toggle-mode" onClick={toggleCreateMode}>
+      <Button onClick={toggleCreateMode}>
         {createMode ? t("page:auth_form:sign_in") : t("page:auth_form:sign_up")}
       </Button>
-      <div className="error">{error}</div>
+      <div className={styles.error}>{error}</div>
     </>
   );
 };

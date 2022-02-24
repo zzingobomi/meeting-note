@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
-import "./MeetingRoomVideo.scss";
+import styles from "./MeetingRoomVideo.module.scss";
 
 const MeetingRoomVideo = ({ nickName, stream, isOwner }) => {
   const ref = useRef(null);
@@ -16,19 +16,19 @@ const MeetingRoomVideo = ({ nickName, stream, isOwner }) => {
   const toggleMuteMode = () => setIsMuted((prev) => !prev);
 
   return (
-    <div className="meeting-room-video">
+    <div className={styles.room_video}>
       <video ref={ref} muted={isMuted} autoPlay playsInline />
-      <span className="meeting-room-nickname">
+      <span className={styles.room_nickname}>
         {nickName ? nickName : "익명사용자"}
       </span>
       {isOwner ? (
         ""
       ) : (
-        <div className="mic-icon-wrapper" onClick={toggleMuteMode}>
+        <div className={styles.icon_wrapper} onClick={toggleMuteMode}>
           {isMuted ? (
-            <MicOffIcon className="mic-iocn" />
+            <MicOffIcon className={styles.mic_iocn} />
           ) : (
-            <MicIcon className="mic-iocn" />
+            <MicIcon className={styles.mic_iocn} />
           )}
         </div>
       )}

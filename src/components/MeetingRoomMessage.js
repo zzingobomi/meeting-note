@@ -14,7 +14,7 @@ import * as yup from "yup";
 import { Box, IconButton, TextField } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import MessageInfo from "./MessageInfo";
-import "./MeetingRoomMessage.scss";
+import styles from "./MeetingRoomMessage.module.scss";
 
 const MeetingRoomMessage = ({ roomId, userId, userNickName, userPhotoUrl }) => {
   const { t } = useTranslation(["page"]);
@@ -90,7 +90,7 @@ const MeetingRoomMessage = ({ roomId, userId, userNickName, userPhotoUrl }) => {
 
   return (
     <>
-      <div ref={messagesList} className="messages-list">
+      <div ref={messagesList} className={styles.messages_list}>
         {messages
           .slice(0)
           .reverse()
@@ -104,7 +104,7 @@ const MeetingRoomMessage = ({ roomId, userId, userNickName, userPhotoUrl }) => {
           ))}
       </div>
       <Box
-        className="message-box"
+        className={styles.message_box}
         component="form"
         noValidate
         autoComplete="off"
@@ -134,7 +134,7 @@ const MeetingRoomMessage = ({ roomId, userId, userNickName, userPhotoUrl }) => {
           }}
         />
       </Box>
-      <div className="error">{error}</div>
+      <div className={styles.error}>{error}</div>
     </>
   );
 };

@@ -2,11 +2,10 @@ import React from "react";
 import { deleteDoc, doc } from "@firebase/firestore";
 import { useTranslation } from "react-i18next";
 import { dbService } from "fbase";
-import { DateTime } from "luxon";
 import { IconButton } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import "./MessageInfo.scss";
+import styles from "./MessageInfo.module.scss";
 
 const MessageInfo = ({ messageObj, isOwner, roomId }) => {
   const { t } = useTranslation(["page"]);
@@ -27,16 +26,16 @@ const MessageInfo = ({ messageObj, isOwner, roomId }) => {
   };
 
   return (
-    <div className="message-info-box">
+    <div className={styles.info_box}>
       {messageObj.creatorPhotoUrl ? (
         <img src={messageObj.creatorPhotoUrl} />
       ) : (
-        <AccountCircleIcon className="anony" />
+        <AccountCircleIcon className={styles.anony} />
       )}
-      <span className="nickname">{messageObj.creatorNickName}</span>
-      <span className="message">{messageObj.message}</span>
+      <span className={styles.nickname}>{messageObj.creatorNickName}</span>
+      <span className={styles.message}>{messageObj.message}</span>
       {/* 
-      <span className="message-time">
+      <span className={styles.message_time}>
         {DateTime.fromMillis(messageObj.createdAt).toFormat("MM/dd HH:mm")}
       </span>*/}
       {isOwner ? (

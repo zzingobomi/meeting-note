@@ -1,10 +1,4 @@
-import {
-  collection,
-  doc,
-  onSnapshot,
-  orderBy,
-  query,
-} from "@firebase/firestore";
+import { collection, onSnapshot, orderBy, query } from "@firebase/firestore";
 import { Container, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -15,7 +9,7 @@ import { authService, dbService } from "../fbase";
 import { Card, CardContent } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import usePageTracking from "usePageTracking";
-import "./Lobby.scss";
+import styles from "./Lobby.module.scss";
 
 const Lobby = () => {
   usePageTracking();
@@ -54,8 +48,8 @@ const Lobby = () => {
   };
 
   return (
-    <Container className="container lobby-container" maxWidth="lg">
-      <div className="room-container-title">
+    <Container className={styles.container} maxWidth="lg">
+      <div className={styles.title}>
         <span>{t("page:lobby:my_room_title")}</span>
       </div>
       <Grid
@@ -65,12 +59,10 @@ const Lobby = () => {
         alignItems="stretch"
       >
         <Grid item xs={12} sm={6} md={4} lg={3}>
-          <Card className="btn-create-card" onClick={onCreateRoomClick}>
-            <CardContent className="btn-create-content">
-              <AddIcon className="btn-create-icon" />
-              <div className="btn-create-label">
-                {t("page:lobby:create_room")}
-              </div>
+          <Card className={styles.card} onClick={onCreateRoomClick}>
+            <CardContent className={styles.content}>
+              <AddIcon className={styles.icon} />
+              <div>{t("page:lobby:create_room")}</div>
             </CardContent>
           </Card>
         </Grid>
@@ -82,8 +74,8 @@ const Lobby = () => {
             </Grid>
           ))}
       </Grid>
-      <div className="divider"></div>
-      <div className="room-container-title">
+      <div className={styles.divider}></div>
+      <div className={styles.title}>
         <span>{t("page:lobby:other_room_title")}</span>
       </div>
       <Grid container spacing={3}>

@@ -10,7 +10,7 @@ import MicOffIcon from "@mui/icons-material/MicOff";
 import NoMeetingRoomIcon from "@mui/icons-material/NoMeetingRoom";
 import { useTranslation } from "react-i18next";
 import usePageTracking from "usePageTracking";
-import "./MeetingRoom.scss";
+import styles from "./MeetingRoom.module.scss";
 
 //const ENDPOINT = "http://localhost:4000";
 //const ENDPOINT = "http://192.168.0.2:4000";
@@ -296,8 +296,8 @@ const MeetingRoom = () => {
   };
 
   return (
-    <Container className="container meeting-room-container" maxWidth="md">
-      <div ref={videoWrapper} className="video-wrapper">
+    <Container className={styles.container} maxWidth="md">
+      <div ref={videoWrapper} className={styles.video_wrapper}>
         <MeetingRoomVideo nickName={nickName} stream={stream} isOwner="true" />
         {users.map((user, index) => {
           return (
@@ -311,10 +311,11 @@ const MeetingRoom = () => {
       </div>
       <div
         className={
-          "messages-wrapper " + (isMessagesSmallMode ? "small" : "large")
+          `${styles.messages_wrapper} ` +
+          (isMessagesSmallMode ? "small" : "large")
         }
       >
-        <div className="messages-box">
+        <div>
           <MeetingRoomMessage
             roomId={entranceRoom.id}
             userId={loginedUser.uid}
@@ -323,15 +324,15 @@ const MeetingRoom = () => {
           />
         </div>
       </div>
-      <div className="button-wrapper">
-        <div className="mute" onClick={toggleMuteMode}>
+      <div className={styles.button_wrapper}>
+        <div className={styles.mute} onClick={toggleMuteMode}>
           {isMuted ? <MicOffIcon /> : <MicIcon />}
         </div>
-        <div className="exit" onClick={onFinishClick}>
+        <div className={styles.exit} onClick={onFinishClick}>
           <NoMeetingRoomIcon />
         </div>
       </div>
-      <div className="error">{error}</div>
+      <div className={styles.error}>{error}</div>
     </Container>
   );
 };

@@ -13,7 +13,7 @@
 - MUI 라이브러리를 사용하여 Material 디자인 적용
 - formic 라이브러리를 사용하여 form validation 적용
 - i18next 라이브러리를 사용하여 다국어 지원
-- SCSS를 이용하여 스타일링
+- CSS Module을 이용하여 스타일링
 
 ### WebRTC
 

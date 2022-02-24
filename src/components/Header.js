@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useHistory } from "react-router";
-import "./Header.scss";
+import styles from "./Header.module.scss";
 
 const Header = () => {
   const { t } = useTranslation(["page"]);
@@ -33,10 +33,10 @@ const Header = () => {
   };
 
   return (
-    <header className="header">
+    <header>
       <Container maxWidth="lg">
-        <div className="header-container">
-          <span className="logo" onClick={onGotoHomeClick}>
+        <div className={styles.header_container}>
+          <span className={styles.logo} onClick={onGotoHomeClick}>
             Meeting Note
           </span>
           <Menu
@@ -56,7 +56,7 @@ const Header = () => {
           {loginedUser ? (
             <>
               {loginedUser.photoURL ? (
-                <div className="user-info">
+                <div className={styles.user_info}>
                   <span>{loginedUser.displayName}</span>
                   <img
                     src={loginedUser.photoURL}
@@ -68,7 +68,7 @@ const Header = () => {
                 </div>
               ) : (
                 <AccountCircleIcon
-                  className="anony"
+                  className={styles.anony}
                   aria-controls="basic-menu"
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}

@@ -1,13 +1,13 @@
 @import "src/style.scss";
 
-.meeting-room-container {
-  .video-wrapper {
+.container {
+  .video_wrapper {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
   }
-  .messages-wrapper {
+  .messages_wrapper {
     margin: auto;
     margin-top: 24px;
   }
@@ -17,7 +17,7 @@
   .large {
     max-width: 648px;
   }
-  .button-wrapper {
+  .button_wrapper {
     margin-top: 32px;
     display: flex;
     justify-content: center;

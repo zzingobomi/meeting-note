@@ -1,27 +1,27 @@
 @import "src/style.scss";
 
-.login-container {
+.login_container {
   text-align: center;
 }
 
-.social-container {
+.social_container {
   margin-top: 24px;
   display: flex;
   flex-direction: column;
-  .btn-anony {
+  .btn_anony {
     background-color: $color-gray-2;
     &:hover {
       background-color: $color-gray-5;
     }
   }
-  .btn-google {
+  .btn_google {
     color: $color-text-1;
     background-color: $color-google;
     &:hover {
       background-color: $color-gray-1;
     }
   }
-  .btn-facebook {
+  .btn_facebook {
     background-color: $color-facebook;
     &:hover {
       background-color: $color-gradient-2;

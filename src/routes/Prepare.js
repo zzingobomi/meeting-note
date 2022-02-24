@@ -14,7 +14,7 @@ import { DateTime } from "luxon";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import usePageTracking from "usePageTracking";
 import ReactGA from "react-ga";
-import "./Prepare.scss";
+import styles from "./Prepare.module.scss";
 
 const Prepare = () => {
   usePageTracking();
@@ -83,10 +83,10 @@ const Prepare = () => {
   };
 
   return (
-    <Container className="container prepare-room-container" maxWidth="xs">
+    <Container className={styles.container} maxWidth="xs">
       <MediaInfo onCameraChange={onCameraChange}></MediaInfo>
       <Box
-        className="prepare-room-box"
+        className={styles.room_box}
         component="form"
         noValidate
         autoComplete="off"
@@ -103,19 +103,21 @@ const Prepare = () => {
           helperText={formik.touched.nickname && formik.errors.nickname}
         />
         <br />
-        <div className="prepare-room-info">
-          <div className="info-item prepare-room-name">
+        <div className={styles.room_info}>
+          <div className={`${styles.info_item} ${styles.room_name}`}>
             <span>{room.name}</span>
           </div>
-          <div className="info-item prepare-room-creator">
+          <div className={`${styles.info_item} ${styles.room_creator}`}>
             <span>{room.creatorNickName}</span>
             {room.creatorPhotoUrl ? (
-              <img className="creator-icon" src={room.creatorPhotoUrl} />
+              <img className={styles.creator_icon} src={room.creatorPhotoUrl} />
             ) : (
-              <AccountCircleIcon className="anony creator-icon" />
+              <AccountCircleIcon
+                className={`${styles.anony} ${styles.creator_icon}`}
+              />
             )}
           </div>
-          <div className="info-item prepare-room-time">
+          <div className={`${styles.info_item} ${styles.room_time}`}>
             {DateTime.fromMillis(Number(room.createdAt)).toFormat(
               "MM/dd HH:mm"
             )}
@@ -126,7 +128,7 @@ const Prepare = () => {
           {t("page:prepare_room:entrance_room_label")}
         </Button>
       </Box>
-      <div className="error">{error}</div>
+      <div className={styles.error}>{error}</div>
     </Container>
   );
 };

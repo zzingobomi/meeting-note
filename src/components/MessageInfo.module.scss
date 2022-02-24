@@ -1,6 +1,6 @@
 @import "src/style.scss";
 
-.message-info-box {
+.info_box {
   display: flex;
   align-items: center;
   .anony {
@@ -26,7 +26,7 @@
     margin-left: 16px;
     word-break: break-word;
   }
-  .message-time {
+  .message_time {
     margin-left: 8px;
     font-size: 0.625rem;
     color: $color-text-2;

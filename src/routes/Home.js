@@ -10,7 +10,7 @@ import { ReactComponent as BottomTilt } from "assets/home/section2-bottom-tilt.s
 import { ReactComponent as Blob1 } from "assets/home/section1-blob-1.svg";
 import { ReactComponent as Blob2 } from "assets/home/section1-blob-2.svg";
 import usePageTracking from "usePageTracking";
-import "./Home.scss";
+import styles from "./Home.module.scss";
 
 const Home = () => {
   usePageTracking();
@@ -18,62 +18,71 @@ const Home = () => {
 
   return (
     <>
-      <section className="home-header">
+      <section className={styles.home_header}>
         <Container maxWidth="md">
-          <div className="wrapper">
-            <div className="wrapper-left">
-              <div className="title">{t("page:home:header_title")}</div>
-              <div className="desc-title">
+          <div className={styles.wrapper}>
+            <div className={styles.wrapper_left}>
+              <div className={styles.title}>{t("page:home:header_title")}</div>
+              <div className={styles.desc_title}>
                 {t("page:home:header_desc_title")}
               </div>
-              <div className="desc">{t("page:home:header_desc")}</div>
-              <Link className="link" to="/login">
-                <Button className="btn btn-login" variant="contained">
+              <div className={styles.desc}>{t("page:home:header_desc")}</div>
+              <Link className={styles.link} to="/login">
+                <Button
+                  className={`${styles.btn} ${styles.btn_login}`}
+                  variant="contained"
+                >
                   {t("page:home:login")}
                 </Button>
               </Link>
             </div>
-            <Header className="img-header" />
+            <Header className={styles.img_header} />
           </div>
         </Container>
-        <div class="shape-divider-bottom">
+        <div class={styles.shape_divider_bottom}>
           <HeaderShapeDividerBottom />
         </div>
       </section>
-      <section className="section-1">
+      <section className={styles.section_1}>
         <Container maxWidth="md">
-          <div className="title">{t("page:home:introduce_title")}</div>
+          <div className={styles.title}>{t("page:home:introduce_title")}</div>
           <p>{t("page:home:introduce")}</p>
-          <div className="video-wrapper">
-            <Blob1 className="blob1" />
-            <Blob2 className="blob2" />
-            <YouTube className="introduce-video" videoId="9oLSZiVXUQ8" />
+          <div className={styles.video_wrapper}>
+            <Blob1 className={styles.blob1} />
+            <Blob2 className={styles.blob2} />
+            <YouTube className={styles.introduce_video} videoId="9oLSZiVXUQ8" />
           </div>
-          <Link className="link" to="/login">
-            <Button className="btn btn-login" variant="contained">
+          <Link className={styles.link} to="/login">
+            <Button
+              className={`${styles.btn} ${styles.btn_login}`}
+              variant="contained"
+            >
               {t("page:home:login")}
             </Button>
           </Link>
         </Container>
       </section>
-      <section className="section-2">
-        <div class="top-tilt">
+      <section className={styles.section_2}>
+        <div className={styles.top_tilt}>
           <TopTilt />
         </div>
         <Container maxWidth="md">
-          <div className="title">{t("page:home:skills_title")}</div>
+          <div className={styles.title}>{t("page:home:skills_title")}</div>
           <p>{t("page:home:skills_desc")}</p>
-          <Link className="link" to="/login">
-            <Button className="btn btn-login" variant="contained">
+          <Link className={styles.link} to="/login">
+            <Button
+              className={`${styles.btn} ${styles.btn_login}`}
+              variant="contained"
+            >
               {t("page:home:login")}
             </Button>
           </Link>
         </Container>
-        <div class="bottom-tilt">
+        <div class={styles.bottom_tilt}>
           <BottomTilt />
         </div>
       </section>
-      <section className="footer">
+      <section className={styles.footer}>
         <Container maxWidth="md">
           <div>
             <a href="https://github.com/zzingobomi/meeting-note">

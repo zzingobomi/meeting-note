@@ -14,7 +14,7 @@ import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import usePageTracking from "usePageTracking";
 import ReactGA from "react-ga";
-import "./Auth.scss";
+import styles from "./Auth.module.scss";
 
 const Auth = () => {
   usePageTracking();
@@ -57,11 +57,14 @@ const Auth = () => {
   };
 
   return (
-    <Container className="container login-container" maxWidth="xs">
+    <Container
+      className={`${styles.container} ${styles.login_container}`}
+      maxWidth="xs"
+    >
       <AuthForm></AuthForm>
-      <div className="social-container">
+      <div className={styles.social_container}>
         <Button
-          className="btn-anony"
+          className={styles.btn_anony}
           variant="contained"
           onClick={onAnonymousClick}
           startIcon={<AccountCircleIcon />}
@@ -70,7 +73,7 @@ const Auth = () => {
         </Button>
         <br />
         <Button
-          className="btn-google"
+          className={styles.btn_google}
           variant="contained"
           onClick={(event) => onSocialClick(event, "google")}
           startIcon={<GoogleIcon style={{ fill: "#d50f25" }} />}
@@ -79,14 +82,14 @@ const Auth = () => {
         </Button>
         <br />
         <Button
-          className="btn-facebook"
+          className={styles.btn_facebook}
           variant="contained"
           onClick={(event) => onSocialClick(event, "facebook")}
           startIcon={<FacebookIcon />}
         >
           {t("page:auth:login_with_facebook")}
         </Button>
-        <div className="error">{error}</div>
+        <div className={styles.error}>{error}</div>
       </div>
     </Container>
   );

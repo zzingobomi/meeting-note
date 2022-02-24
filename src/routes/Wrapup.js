@@ -16,7 +16,7 @@ import { DateTime } from "luxon";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 import CsvDownload from "react-json-to-csv";
 import usePageTracking from "usePageTracking";
-import "./Wrapup.scss";
+import styles from "./Wrapup.module.scss";
 
 const Wrapup = () => {
   usePageTracking();
@@ -85,21 +85,19 @@ const Wrapup = () => {
   };
 
   return (
-    <Container className="container wrapup-container" maxWidth="xs">
-      <div className="wrapup-box">
-        <DirectionsRunIcon className="run-icon" />
-        <div className="timeline">
-          <div className="line"></div>
+    <Container className={styles.container} maxWidth="xs">
+      <div className={styles.wrapup_box}>
+        <DirectionsRunIcon className={styles.run_icon} />
+        <div className={styles.timeline}>
+          <div className={styles.line}></div>
         </div>
-        <div className="time-info">
-          <span className="start-time">{startTime}</span>
-          <span className="end-time">
-            {DateTime.now().toFormat("MM/dd HH:mm")}
-          </span>
+        <div className={styles.time_info}>
+          <span>{startTime}</span>
+          <span>{DateTime.now().toFormat("MM/dd HH:mm")}</span>
         </div>
-        <span className="duration">{durationTime}</span>
+        <span className={styles.duration}>{durationTime}</span>
         <CsvDownload
-          className="btn_export_csv"
+          className={styles.btn_export_csv}
           filename={roomName + ".csv"}
           data={messages}
         >

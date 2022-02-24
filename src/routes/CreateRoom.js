@@ -13,7 +13,7 @@ import MediaInfo from "components/MediaInfo";
 import { DateTime } from "luxon";
 import usePageTracking from "usePageTracking";
 import ReactGA from "react-ga";
-import "./CreateRoom.scss";
+import styles from "./CreateRoom.module.scss";
 
 const CreateRoom = () => {
   usePageTracking();
@@ -81,10 +81,10 @@ const CreateRoom = () => {
   };
 
   return (
-    <Container className="container create-room-container" maxWidth="xs">
+    <Container className={styles.container} maxWidth="xs">
       <MediaInfo onCameraChange={onCameraChange}></MediaInfo>
       <Box
-        className="create-room-box"
+        className={styles.room_box}
         component="form"
         noValidate
         autoComplete="off"
@@ -116,7 +116,7 @@ const CreateRoom = () => {
           {t("page:create_room:create_room_label")}
         </Button>
       </Box>
-      <div className="error">{error}</div>
+      <div className={styles.error}>{error}</div>
     </Container>
   );
 };

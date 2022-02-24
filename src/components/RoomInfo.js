@@ -7,7 +7,7 @@ import { DateTime } from "luxon";
 import { deleteDoc, doc } from "@firebase/firestore";
 import { dbService } from "fbase";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import "./RoomInfo.scss";
+import styles from "./RoomInfo.module.scss";
 
 const RoomInfo = ({ roomObj, isOwner }) => {
   const { t } = useTranslation(["page"]);
@@ -34,22 +34,22 @@ const RoomInfo = ({ roomObj, isOwner }) => {
   };
 
   return (
-    <Card onClick={onEntranceClick}>
+    <Card className={styles.card} onClick={onEntranceClick}>
       <CardContent>
-        <div className="room-creator-time">
+        <div className={styles.create_time}>
           {DateTime.fromMillis(roomObj.createdAt).toFormat("MM/dd HH:mm")}
         </div>
-        <div className="room-name">{roomObj.name}</div>
-        <div className="room-creator-info">
+        <div className={styles.room_name}>{roomObj.name}</div>
+        <div className={styles.creator_info}>
           <span>{roomObj.creatorNickName}</span>
           {roomObj.creatorPhotoUrl ? (
             <img src={roomObj.creatorPhotoUrl} />
           ) : (
-            <AccountCircleIcon className="anony" />
+            <AccountCircleIcon className={styles.anony} />
           )}
           {isOwner ? (
             <IconButton
-              className="btn-room-delete"
+              className={styles.room_delete}
               onClick={onDeleteClick}
               aria-label={t("page:room_info:delete")}
             >

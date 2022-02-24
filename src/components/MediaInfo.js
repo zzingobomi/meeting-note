@@ -4,7 +4,7 @@ import { InputLabel, MenuItem, Select } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import VolumeMeter from "components/volumemeter";
 import MicIcon from "@mui/icons-material/Mic";
-import "./MediaInfo.scss";
+import styles from "./MediaInfo.module.scss";
 
 const MediaInfo = ({ onCameraChange }) => {
   const { t } = useTranslation(["page"]);
@@ -93,18 +93,18 @@ const MediaInfo = ({ onCameraChange }) => {
   };
 
   return (
-    <div className="media-box">
+    <div className={styles.box}>
       <video
-        className="video-preview"
+        className={styles.video_preview}
         ref={videoPreview}
         autoPlay
         playsInline
       />
-      <div className="mic-wrapper">
+      <div className={styles.mic_wrapper}>
         <MicIcon />
-        <VolumeMeter className="volume-meter" stream={stream} max={40} />
+        <VolumeMeter stream={stream} max={40} />
       </div>
-      <FormControl className="select-camera" variant="standard">
+      <FormControl className={styles.select_camera} variant="standard">
         <InputLabel id="select-camera-label">
           {t("page:media_info:select_camera_label")}
         </InputLabel>
@@ -123,7 +123,7 @@ const MediaInfo = ({ onCameraChange }) => {
           })}
         </Select>
       </FormControl>
-      <div className="error">{error}</div>
+      <div className={styles.error}>{error}</div>
     </div>
   );
 };

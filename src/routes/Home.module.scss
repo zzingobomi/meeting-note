@@ -42,7 +42,7 @@ section {
   }
 }
 
-.home-header {
+.home_header {
   padding-top: 80px;
   position: relative;
   color: white;
@@ -59,7 +59,7 @@ section {
     display: flex;
     flex-direction: row;
     align-items: center;
-    .wrapper-left {
+    .wrapper_left {
       display: flex;
       flex-direction: column;
       text-align: start;
@@ -70,7 +70,7 @@ section {
         margin-bottom: 48px;
         word-break: break-all;
       }
-      .desc-title {
+      .desc_title {
         font-family: "Noto Sans KR", sans-serif;
         font-weight: 700;
         font-size: 2rem;
@@ -82,19 +82,19 @@ section {
         white-space: pre-wrap;
         font-size: 1rem;
       }
-      .btn-login {
+      .btn_login {
         margin-top: 32px;
         margin-bottom: 48px;
         z-index: 1;
       }
     }
-    .img-header {
+    .img_header {
       width: 50%;
       height: 50%;
     }
   }
 
-  .shape-divider-bottom {
+  .shape_divider_bottom {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -114,7 +114,7 @@ section {
   }
 }
 
-.section-1 {
+.section_1 {
   color: $color-text-2;
   .blob1 {
     position: absolute;
@@ -131,11 +131,11 @@ section {
     width: 30%;
     height: 30%;
   }
-  .video-wrapper {
+  .video_wrapper {
     position: relative;
     margin-top: 64px;
     margin-bottom: 80px;
-    .introduce-video {
+    .introduce_video {
       position: relative;
       border-radius: 8px;
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
@@ -144,7 +144,7 @@ section {
   }
 }
 
-.section-2 {
+.section_2 {
   padding-top: 80px;
   padding-bottom: 80px;
   position: relative;
@@ -157,11 +157,11 @@ section {
     margin-top: 48px;
     margin-bottom: 48px;
   }
-  .btn-login {
+  .btn_login {
     margin-bottom: 48px;
   }
 
-  .top-tilt {
+  .top_tilt {
     position: absolute;
     top: 0;
     left: 0;
@@ -180,7 +180,7 @@ section {
     }
   }
 
-  .bottom-tilt {
+  .bottom_tilt {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -212,16 +212,16 @@ section {
 }
 
 @media screen and (max-width: 688px) {
-  .introduce-video {
+  .introduce_video {
     width: 100%;
   }
 }
 
 @media screen and (max-width: 1024px) {
-  .home-header {
+  .home_header {
     padding-top: 48px;
   }
-  .img-header {
+  .img_header {
     display: none;
   }
 }

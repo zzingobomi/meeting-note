@@ -1,21 +1,21 @@
 @import "src/style.scss";
 
-.room-container-title {
+.title {
   margin-bottom: 16px;
   span {
     font-size: 1.25rem;
   }
 }
 
-.btn-create-card {
+.card {
   height: 100%;
-  .btn-create-content {
+  .content {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: calc(100% - 32px);
-    .btn-create-icon {
+    .icon {
       width: 32px;
       height: 32px;
       margin-bottom: 8px;
