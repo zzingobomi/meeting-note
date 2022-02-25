@@ -9,9 +9,10 @@ import MicOffIcon from "@mui/icons-material/MicOff";
 import NoMeetingRoomIcon from "@mui/icons-material/NoMeetingRoom";
 import { useTranslation } from "react-i18next";
 import usePageTracking from "usePageTracking";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { enterTimeState, userState } from "atoms";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { enterTimeState, fbUserState, roomUsersState } from "atoms";
 import { DateTime } from "luxon";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import styles from "./MeetingRoom.module.scss";
 
 //const ENDPOINT = "http://localhost:4000";
@@ -21,7 +22,7 @@ const ENDPOINT = "https://node.zzingobomi.synology.me";
 const MeetingRoom = () => {
   usePageTracking();
   const { t } = useTranslation(["page"]);
-  const loginedUser = useRecoilValue(userState);
+  const loginedUser = useRecoilValue(fbUserState);
   const setEnterTime = useSetRecoilState(enterTimeState);
   const sessionInfo = JSON.parse(window.sessionStorage.getItem("sessionInfo"));
 
@@ -34,7 +35,8 @@ const MeetingRoom = () => {
 
   const [stream, setStream] = useState(null);
   const [socket, setSocket] = useState();
-  const [users, setUsers] = useState([]);
+
+  const [roomUsers, setRoomUsers] = useRecoilState(roomUsersState);
 
   const [isMuted, setIsMuted] = useState(false);
   const [isMessagesSmallMode, setIsMessagesSmallMode] = useState(true);
@@ -65,7 +67,7 @@ const MeetingRoom = () => {
 
   useEffect(() => {
     computeMessagesMode();
-  }, [users]);
+  }, [roomUsers]);
 
   const initWebRTC = async () => {
     await getMedia(deviceId);
@@ -101,6 +103,15 @@ const MeetingRoom = () => {
         deviceId ? cameraConstrains : initialConstrains
       );
       setStream(localStream);
+      setRoomUsers((allUsers) => {
+        const userObj = {
+          id: "mine",
+          nickName: nickName,
+          stream: localStream,
+          isOwner: true,
+        };
+        return [...allUsers, userObj];
+      });
     } catch (error) {
       setError(error.message);
     }
@@ -207,7 +218,9 @@ const MeetingRoom = () => {
       console.log("user_exit");
       pcs[data.id].close();
       delete pcs[data.id];
-      setUsers((oldUsers) => oldUsers.filter((user) => user.id !== data.id));
+      setRoomUsers((oldUsers) =>
+        oldUsers.filter((user) => user.id !== data.id)
+      );
     });
 
     setSocket(newSocket);
@@ -247,8 +260,10 @@ const MeetingRoom = () => {
 
     pc.ontrack = (e) => {
       console.log("ontrack success");
-      setUsers((oldUsers) => oldUsers.filter((user) => user.id !== socketID));
-      setUsers((oldUsers) => [
+      setRoomUsers((oldUsers) =>
+        oldUsers.filter((user) => user.id !== socketID)
+      );
+      setRoomUsers((oldUsers) => [
         ...oldUsers,
         {
           id: socketID,
@@ -293,26 +308,48 @@ const MeetingRoom = () => {
   };
 
   const getVideoCountPerRow = () => {
-    const grid = Array.from(videoWrapper.current.children);
-    const baseOffset = grid[0].offsetTop;
+    const grid = Array.from(videoWrapper.current?.children);
+    const baseOffset = grid[0]?.offsetTop;
     const breakIndex = grid.findIndex((item) => item.offsetTop > baseOffset);
     return breakIndex === -1 ? grid.length : breakIndex;
   };
 
+  const onDragEnd = (info) => {
+    const { destination, source } = info;
+    if (!destination) return;
+    setRoomUsers((allUsers) => {
+      const allUsersCopy = allUsers.slice();
+      const userObj = allUsersCopy[source.index];
+      allUsersCopy.splice(source.index, 1);
+      allUsersCopy.splice(destination?.index, 0, userObj);
+      return allUsersCopy;
+    });
+  };
+
   return (
     <Container className={styles.container} maxWidth="md">
-      <div ref={videoWrapper} className={styles.video_wrapper}>
-        <MeetingRoomVideo nickName={nickName} stream={stream} isOwner="true" />
-        {users.map((user, index) => {
-          return (
-            <MeetingRoomVideo
-              key={index}
-              nickName={user.nickName}
-              stream={user.stream}
-            />
-          );
-        })}
-      </div>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="video-wrapper">
+          {(provided) => (
+            <div ref={provided.innerRef} {...provided.droppableProps}>
+              <div ref={videoWrapper} className={styles.video_wrapper}>
+                {roomUsers.map((user, index) => {
+                  return (
+                    <MeetingRoomVideo
+                      key={index}
+                      nickName={user.nickName}
+                      stream={user.stream}
+                      isOwner={user.isOwner}
+                      index={index}
+                    />
+                  );
+                })}
+              </div>
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
       <div
         className={
           `${styles.messages_wrapper} ` +

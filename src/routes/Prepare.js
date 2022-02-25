@@ -14,14 +14,14 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import usePageTracking from "usePageTracking";
 import ReactGA from "react-ga";
 import { useRecoilValue } from "recoil";
-import { userState } from "atoms";
+import { fbUserState } from "atoms";
 import styles from "./Prepare.module.scss";
 
 const Prepare = () => {
   usePageTracking();
   const { t } = useTranslation(["page"]);
   const history = useHistory();
-  const { displayName } = useRecoilValue(userState);
+  const { displayName } = useRecoilValue(fbUserState);
 
   const [roomId, setRoomId] = useState("");
   const [room, setRoom] = useState({});

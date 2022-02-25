@@ -10,7 +10,7 @@ import Wrapup from "routes/Wrapup";
 import NotFound from "routes/NotFound";
 import { Fragment } from "react";
 import { useRecoilValue } from "recoil";
-import { userState } from "atoms";
+import { fbUserState } from "atoms";
 import Header from "./Header";
 
 export const FragmentSupportingSwitch = ({ children }) => {
@@ -35,7 +35,7 @@ function flatten(target, children) {
 }
 
 const AppRouter = () => {
-  const loginedUser = useRecoilValue(userState);
+  const loginedUser = useRecoilValue(fbUserState);
 
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>

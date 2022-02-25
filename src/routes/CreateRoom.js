@@ -13,14 +13,14 @@ import { DateTime } from "luxon";
 import usePageTracking from "usePageTracking";
 import ReactGA from "react-ga";
 import { useRecoilValue } from "recoil";
-import { userState } from "atoms";
+import { fbUserState } from "atoms";
 import styles from "./CreateRoom.module.scss";
 
 const CreateRoom = () => {
   usePageTracking();
   const { t } = useTranslation(["page"]);
   const history = useHistory();
-  const { uid, displayName, photoURL } = useRecoilValue(userState);
+  const { uid, displayName, photoURL } = useRecoilValue(fbUserState);
   const [error, setError] = useState("");
   const [deviceId, setDeviceId] = useState("");
 

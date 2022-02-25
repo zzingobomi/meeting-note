@@ -9,14 +9,14 @@ import { Card, CardContent } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import usePageTracking from "usePageTracking";
 import { useRecoilValue } from "recoil";
-import { userState } from "atoms";
+import { fbUserState } from "atoms";
 import styles from "./Lobby.module.scss";
 
 const Lobby = () => {
   usePageTracking();
   const { t } = useTranslation(["page"]);
   const history = useHistory();
-  const loginedUser = useRecoilValue(userState);
+  const loginedUser = useRecoilValue(fbUserState);
   const [rooms, setRooms] = useState([]);
 
   useEffect(() => {

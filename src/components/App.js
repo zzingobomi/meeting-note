@@ -4,11 +4,11 @@ import AppRouter from "./Router";
 import LoopIcon from "@mui/icons-material/Loop";
 import styles from "./App.module.scss";
 import { useSetRecoilState } from "recoil";
-import { userState } from "atoms";
+import { fbUserState } from "atoms";
 
 function App() {
   const [init, setInit] = useState(false);
-  const setUser = useSetRecoilState(userState);
+  const setFbUser = useSetRecoilState(fbUserState);
 
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
@@ -21,10 +21,10 @@ function App() {
           photoURL: photoURL,
           uid: uid,
         };
-        setUser(userObj);
+        setFbUser(userObj);
         setInit(true);
       } else {
-        setUser(null);
+        setFbUser(null);
         setInit(true);
       }
     });

@@ -5,13 +5,13 @@ import { useTranslation } from "react-i18next";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useHistory } from "react-router";
 import { useRecoilValue } from "recoil";
-import { userState } from "atoms";
+import { fbUserState } from "atoms";
 import styles from "./Header.module.scss";
 
 const Header = () => {
   const { t } = useTranslation(["page"]);
   const history = useHistory();
-  const loginedUser = useRecoilValue(userState);
+  const loginedUser = useRecoilValue(fbUserState);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
