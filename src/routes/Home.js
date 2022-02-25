@@ -10,11 +10,26 @@ import { ReactComponent as BottomTilt } from "assets/home/section2-bottom-tilt.s
 import { ReactComponent as Blob1 } from "assets/home/section1-blob-1.svg";
 import { ReactComponent as Blob2 } from "assets/home/section1-blob-2.svg";
 import usePageTracking from "usePageTracking";
+import { motion, useViewportScroll, useTransform } from "framer-motion";
 import styles from "./Home.module.scss";
+
+const imgVariants = {
+  start: {
+    opacity: 0,
+    scale: 0,
+  },
+  end: {
+    opacity: 1,
+    scale: 1,
+  },
+};
 
 const Home = () => {
   usePageTracking();
   const { t } = useTranslation(["page"]);
+  const { scrollYProgress } = useViewportScroll();
+  const blobOpacity = useTransform(scrollYProgress, [0, 0.4], [0, 1]);
+  const youtubeOpacity = useTransform(scrollYProgress, [0, 0.3], [0.1, 1]);
 
   return (
     <>
@@ -36,7 +51,14 @@ const Home = () => {
                 </Button>
               </Link>
             </div>
-            <Header className={styles.img_header} />
+            <motion.div
+              variants={imgVariants}
+              initial="start"
+              animate="end"
+              className={styles.img_header}
+            >
+              <Header />
+            </motion.div>
           </div>
         </Container>
         <div className={styles.shape_divider_bottom}>
@@ -48,9 +70,18 @@ const Home = () => {
           <div className={styles.title}>{t("page:home:introduce_title")}</div>
           <p>{t("page:home:introduce")}</p>
           <div className={styles.video_wrapper}>
-            <Blob1 className={styles.blob1} />
-            <Blob2 className={styles.blob2} />
-            <YouTube className={styles.introduce_video} videoId="9oLSZiVXUQ8" />
+            <motion.div style={{ opacity: blobOpacity }}>
+              <Blob1 className={styles.blob1} />
+            </motion.div>
+            <motion.div style={{ opacity: blobOpacity }}>
+              <Blob2 className={styles.blob2} />
+            </motion.div>
+            <motion.div style={{ opacity: youtubeOpacity }}>
+              <YouTube
+                className={styles.introduce_video}
+                videoId="9oLSZiVXUQ8"
+              />
+            </motion.div>
           </div>
           <Link className={styles.link} to="/login">
             <Button
@@ -67,8 +98,10 @@ const Home = () => {
           <TopTilt />
         </div>
         <Container maxWidth="md">
-          <div className={styles.title}>{t("page:home:skills_title")}</div>
-          <p>{t("page:home:skills_desc")}</p>
+          <motion.div whileHover={{ scale: 1.2 }}>
+            <div className={styles.title}>{t("page:home:skills_title")}</div>
+            <p>{t("page:home:skills_desc")}</p>
+          </motion.div>
           <Link className={styles.link} to="/login">
             <Button
               className={`${styles.btn} ${styles.btn_login}`}
