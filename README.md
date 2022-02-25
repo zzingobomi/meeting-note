@@ -10,6 +10,7 @@
 
 - React를 이용하여 전체 페이지 제작
 - Recoil 상태관리 라이브러리를 이용하여 로그인된 유저 정보 관리
+- react-beautiful-dnd 라이브러리를 사용하여 화상화면 Drap & Drop 적용
 - MUI 라이브러리를 사용하여 Material 디자인 적용
 - formic 라이브러리를 사용하여 form validation 적용
 - i18next 라이브러리를 사용하여 다국어 지원
