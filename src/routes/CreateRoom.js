@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
 import { addDoc, collection } from "@firebase/firestore";
 import { dbService } from "../fbase";
 import { useHistory } from "react-router";
@@ -13,16 +12,15 @@ import MediaInfo from "components/MediaInfo";
 import { DateTime } from "luxon";
 import usePageTracking from "usePageTracking";
 import ReactGA from "react-ga";
+import { useRecoilValue } from "recoil";
+import { userState } from "atoms";
 import styles from "./CreateRoom.module.scss";
 
 const CreateRoom = () => {
   usePageTracking();
   const { t } = useTranslation(["page"]);
   const history = useHistory();
-  const { uid, displayName, photoURL } = useSelector(
-    (store) => store.loginedUser
-  );
-
+  const { uid, displayName, photoURL } = useRecoilValue(userState);
   const [error, setError] = useState("");
   const [deviceId, setDeviceId] = useState("");
 

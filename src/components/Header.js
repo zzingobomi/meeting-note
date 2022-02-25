@@ -2,16 +2,16 @@ import { Container, Menu, MenuItem } from "@mui/material";
 import React, { useState } from "react";
 import { authService } from "fbase";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useHistory } from "react-router";
+import { useRecoilValue } from "recoil";
+import { userState } from "atoms";
 import styles from "./Header.module.scss";
 
 const Header = () => {
   const { t } = useTranslation(["page"]);
   const history = useHistory();
-  const loginedUser = useSelector((store) => store.loginedUser);
-
+  const loginedUser = useRecoilValue(userState);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 

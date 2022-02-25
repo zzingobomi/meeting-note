@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { doc, getDoc } from "@firebase/firestore";
 import MediaInfo from "components/MediaInfo";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { dbService } from "../fbase";
 import Box from "@mui/material/Box";
@@ -14,13 +13,15 @@ import { DateTime } from "luxon";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import usePageTracking from "usePageTracking";
 import ReactGA from "react-ga";
+import { useRecoilValue } from "recoil";
+import { userState } from "atoms";
 import styles from "./Prepare.module.scss";
 
 const Prepare = () => {
   usePageTracking();
   const { t } = useTranslation(["page"]);
   const history = useHistory();
-  const { uid, displayName } = useSelector((store) => store.loginedUser);
+  const { displayName } = useRecoilValue(userState);
 
   const [roomId, setRoomId] = useState("");
   const [room, setRoom] = useState({});

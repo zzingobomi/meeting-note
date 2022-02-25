@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import socketIOClient from "socket.io-client";
 import { Container } from "@mui/material";
@@ -10,6 +9,8 @@ import MicOffIcon from "@mui/icons-material/MicOff";
 import NoMeetingRoomIcon from "@mui/icons-material/NoMeetingRoom";
 import { useTranslation } from "react-i18next";
 import usePageTracking from "usePageTracking";
+import { useRecoilValue } from "recoil";
+import { userState } from "atoms";
 import styles from "./MeetingRoom.module.scss";
 
 //const ENDPOINT = "http://localhost:4000";
@@ -19,7 +20,7 @@ const ENDPOINT = "https://node.zzingobomi.synology.me";
 const MeetingRoom = () => {
   usePageTracking();
   const { t } = useTranslation(["page"]);
-  const loginedUser = useSelector((store) => store.loginedUser);
+  const loginedUser = useRecoilValue(userState);
   const sessionInfo = JSON.parse(window.sessionStorage.getItem("sessionInfo"));
 
   const history = useHistory();

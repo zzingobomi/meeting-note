@@ -1,16 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { RecoilRoot } from "recoil";
 import App from "components/App";
-import { Provider } from "react-redux";
 import "./i18n";
 import "./style.scss";
-import store from "./store";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 ReactDOM.render(
-  <Provider store={store}>
+  <RecoilRoot>
     <App />
-  </Provider>,
+  </RecoilRoot>,
   document.getElementById("root")
 );
 

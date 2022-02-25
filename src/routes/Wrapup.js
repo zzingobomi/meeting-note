@@ -8,7 +8,6 @@ import {
   query,
 } from "@firebase/firestore";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
 import { dbService } from "fbase";
 import { useHistory } from "react-router";
 import { Button, Container } from "@mui/material";
@@ -23,7 +22,6 @@ const Wrapup = () => {
   const { t } = useTranslation(["page"]);
   const history = useHistory();
 
-  const loginedUser = useSelector((store) => store.loginedUser);
   const sessionInfo = JSON.parse(window.sessionStorage.getItem("sessionInfo"));
 
   const [error, setError] = useState("");

@@ -39,7 +39,7 @@ const Home = () => {
             <Header className={styles.img_header} />
           </div>
         </Container>
-        <div class={styles.shape_divider_bottom}>
+        <div className={styles.shape_divider_bottom}>
           <HeaderShapeDividerBottom />
         </div>
       </section>
@@ -78,7 +78,7 @@ const Home = () => {
             </Button>
           </Link>
         </Container>
-        <div class={styles.bottom_tilt}>
+        <div className={styles.bottom_tilt}>
           <BottomTilt />
         </div>
       </section>

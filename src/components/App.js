@@ -1,22 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { authService } from "../fbase";
 import AppRouter from "./Router";
 import LoopIcon from "@mui/icons-material/Loop";
 import styles from "./App.module.scss";
+import { useSetRecoilState } from "recoil";
+import { userState } from "atoms";
 
 function App() {
   const [init, setInit] = useState(false);
-  const dispatch = useDispatch();
+  const setUser = useSetRecoilState(userState);
 
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if (user) {
-        dispatch({ type: "AUTH_STATE_CHANGED", user: user });
+        const { displayName, email, isAnonymous, photoURL, uid } = user;
+        const userObj = {
+          displayName: displayName,
+          email: email,
+          isAnonymous: isAnonymous,
+          photoURL: photoURL,
+          uid: uid,
+        };
+        setUser(userObj);
+        setInit(true);
       } else {
-        dispatch({ type: "AUTH_STATE_CHANGED", user: null });
+        setUser(null);
+        setInit(true);
       }
-      setInit(true);
     });
   }, []);
 

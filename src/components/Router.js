@@ -8,8 +8,9 @@ import MeetingRoom from "routes/MeetingRoom";
 import Prepare from "routes/Prepare";
 import Wrapup from "routes/Wrapup";
 import NotFound from "routes/NotFound";
-import { useSelector } from "react-redux";
 import { Fragment } from "react";
+import { useRecoilValue } from "recoil";
+import { userState } from "atoms";
 import Header from "./Header";
 
 export const FragmentSupportingSwitch = ({ children }) => {
@@ -34,7 +35,7 @@ function flatten(target, children) {
 }
 
 const AppRouter = () => {
-  const loginedUser = useSelector((store) => store.loginedUser);
+  const loginedUser = useRecoilValue(userState);
 
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
