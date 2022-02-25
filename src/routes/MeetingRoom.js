@@ -9,8 +9,9 @@ import MicOffIcon from "@mui/icons-material/MicOff";
 import NoMeetingRoomIcon from "@mui/icons-material/NoMeetingRoom";
 import { useTranslation } from "react-i18next";
 import usePageTracking from "usePageTracking";
-import { useRecoilValue } from "recoil";
-import { userState } from "atoms";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { enterTimeState, userState } from "atoms";
+import { DateTime } from "luxon";
 import styles from "./MeetingRoom.module.scss";
 
 //const ENDPOINT = "http://localhost:4000";
@@ -21,6 +22,7 @@ const MeetingRoom = () => {
   usePageTracking();
   const { t } = useTranslation(["page"]);
   const loginedUser = useRecoilValue(userState);
+  const setEnterTime = useSetRecoilState(enterTimeState);
   const sessionInfo = JSON.parse(window.sessionStorage.getItem("sessionInfo"));
 
   const history = useHistory();
@@ -45,6 +47,7 @@ const MeetingRoom = () => {
   let pcs;
 
   useEffect(() => {
+    setEnterTime(DateTime.now());
     window.addEventListener("resize", computeMessagesMode);
     computeMessagesMode();
     initWebRTC();

@@ -15,13 +15,15 @@ import { DateTime } from "luxon";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 import CsvDownload from "react-json-to-csv";
 import usePageTracking from "usePageTracking";
+import { useRecoilValue } from "recoil";
+import { enterTimeState } from "atoms";
 import styles from "./Wrapup.module.scss";
 
 const Wrapup = () => {
   usePageTracking();
   const { t } = useTranslation(["page"]);
   const history = useHistory();
-
+  const enterTime = useRecoilValue(enterTimeState);
   const sessionInfo = JSON.parse(window.sessionStorage.getItem("sessionInfo"));
 
   const [error, setError] = useState("");
@@ -36,22 +38,18 @@ const Wrapup = () => {
   }, []);
 
   const getRoom = async () => {
+    const diff = DateTime.now().diff(DateTime.fromMillis(Number(enterTime)));
+    let durationTime = diff
+      .toFormat("dd : hh : mm : ss")
+      .replace(/^[0 : ]+(?=\d[\d : ]{3})/, "");
+    setDurationTime(durationTime);
+    setStartTime(
+      DateTime.fromMillis(Number(enterTime)).toFormat("MM/dd HH:mm")
+    );
+
     const docRef = doc(dbService, "rooms", sessionInfo.entranceRoom.id);
     const docSnap = await getDoc(docRef);
-
     if (docSnap.exists()) {
-      const diff = DateTime.now().diff(
-        DateTime.fromMillis(Number(docSnap.data().createdAt))
-      );
-      let durationTime = diff
-        .toFormat("dd : hh : mm : ss")
-        .replace(/^[0 : ]+(?=\d[\d : ]{3})/, "");
-      setDurationTime(durationTime);
-      setStartTime(
-        DateTime.fromMillis(Number(docSnap.data().createdAt)).toFormat(
-          "MM/dd HH:mm"
-        )
-      );
       setRoomName(docSnap.data().name);
     } else {
       setError("No such rooms");
@@ -59,7 +57,6 @@ const Wrapup = () => {
   };
 
   const getMessages = async () => {
-    console.log("getMessages");
     const messagesQuery = query(
       collection(dbService, "rooms", sessionInfo.entranceRoom.id, "messages"),
       orderBy("createdAt", "asc")
